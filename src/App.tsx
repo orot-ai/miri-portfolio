@@ -43,14 +43,9 @@ const SectionLoader: React.FC = () => (
 const App: React.FC = () => {
   const { isAdminMode } = useAdminStore();
   
-  // Analytics 설정 (환경 변수 기반)
-  const isProduction = process.env.NODE_ENV === 'production';
-  const enableAnalytics = import.meta.env.VITE_ENABLE_VERCEL_ANALYTICS === 'true';
-  const enableSpeedInsights = import.meta.env.VITE_ENABLE_SPEED_INSIGHTS === 'true'; 
-  const excludeAdminPages = import.meta.env.VITE_ANALYTICS_EXCLUDE_ADMIN === 'true';
-  
-  const shouldLoadAnalytics = isProduction && enableAnalytics;
-  const shouldLoadSpeedInsights = isProduction && enableSpeedInsights;
+  // Analytics 설정 - Vercel 프로덕션에서 자동 활성화
+  const isProduction = import.meta.env.PROD;
+  const excludeAdminPages = true; // 관리자 페이지는 항상 제외
   
   useEffect(() => {
     if (isAdminMode) {
@@ -89,32 +84,25 @@ const App: React.FC = () => {
             </Routes>
           </Suspense>
           
-          {/* Vercel Analytics & Speed Insights - 환경 변수 기반 제어 */}
-          <>
-            {shouldLoadAnalytics && (
-              <Analytics 
-                beforeSend={(event) => {
-                  // 관리자 페이지 제외 설정 확인
-                  if (excludeAdminPages && event.url?.includes('/admin')) {
-                    return null;
-                  }
-                  return event;
-                }}
-              />
-            )}
-            
-            {shouldLoadSpeedInsights && (
-              <SpeedInsights 
-                beforeSend={(event) => {
-                  // 관리자 페이지 성능 데이터 제외
-                  if (excludeAdminPages && event.url?.includes('/admin')) {
-                    return null;
-                  }
-                  return event;
-                }}
-              />
-            )}
-          </>
+          {/* Vercel Analytics & Speed Insights */}
+          <Analytics 
+            beforeSend={(event) => {
+              // 관리자 페이지는 추적하지 않음
+              if (event.url?.includes('/admin')) {
+                return null;
+              }
+              return event;
+            }}
+          />
+          <SpeedInsights 
+            beforeSend={(event) => {
+              // 관리자 페이지 성능 데이터 제외
+              if (event.url?.includes('/admin')) {
+                return null;
+              }
+              return event;
+            }}
+          />
         </div>
       </Router>
     </ErrorBoundary>
