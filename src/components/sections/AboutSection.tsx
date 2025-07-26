@@ -14,8 +14,13 @@ interface AboutSectionProps {
 
 export const AboutSection: React.FC<AboutSectionProps> = ({ className = '' }) => {
   const { isAdminMode } = useAdminStore();
-  const { content, updateContent } = useAdminContent('about_section');
-  const { getContentValue, handleContentUpdate } = useContentHelpers({ content, updateContent });
+  const { content, updateContent, refetch } = useAdminContent('about_section');
+  const { getContentValue, handleContentUpdate } = useContentHelpers({ 
+    content, 
+    updateContent, 
+    section: 'about_section',
+    refetch 
+  });
   const { ref: titleRef, controls: titleControls } = useScrollAnimation({ threshold: 0.3 });
   const { ref: dividerRef, controls: dividerControls } = useScrollAnimation({ 
     threshold: 0.3, 

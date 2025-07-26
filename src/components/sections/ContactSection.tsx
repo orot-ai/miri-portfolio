@@ -14,24 +14,14 @@ interface ContactSectionProps {
 
 export const ContactSection: React.FC<ContactSectionProps> = ({ className = '' }) => {
   const { isAdminMode } = useAdminStore();
-  const { content, updateContent } = useAdminContent('contact');
+  const { content, updateContent, refetch } = useAdminContent('contact');
+  const { getContentValue, handleContentUpdate } = useContentHelpers({ 
+    content, 
+    updateContent, 
+    section: 'contact',
+    refetch 
+  });
   const { ref: headerRef, controls: headerControls } = useScrollAnimation({ threshold: 0.3 });
-  
-  const getContentValue = (field: string) => {
-    return content.find(item => item.field === field)?.content || '';
-  }
-  
-  const getContentId = (field: string) => {
-    return content.find(item => item.field === field)?.id || '';
-  }
-  
-  const handleContentUpdate = async (field: string, newValue: string) => {
-    const id = getContentId(field);
-    if (id) {
-      return await updateContent(id, newValue);
-    }
-    return false;
-  }
 
   const headerVariants = {
     hidden: {},

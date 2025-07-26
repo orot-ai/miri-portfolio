@@ -13,16 +13,30 @@ if (!supabaseServiceKey) {
   throw new Error('Supabase SERVICE KEY가 환경변수에 설정되어 있지 않습니다.')
 }
 
+// 싱글톤 패턴으로 클라이언트 생성
+let _supabase: any = null
+let _supabaseAdmin: any = null
+
 // 일반 사용자용 클라이언트 (읽기 전용)
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = (() => {
+  if (!_supabase) {
+    _supabase = createClient(supabaseUrl, supabaseAnonKey)
+  }
+  return _supabase
+})()
 
 // 관리자용 클라이언트 (전체 권한, RLS 우회)
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false
+export const supabaseAdmin = (() => {
+  if (!_supabaseAdmin) {
+    _supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    })
   }
-})
+  return _supabaseAdmin
+})()
 
 // 데이터베이스 타입 정의
 export interface PortfolioContent {

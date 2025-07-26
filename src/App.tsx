@@ -5,7 +5,6 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import Header from '@/components/layout/Header';
 import CustomCursor from '@/components/ui/CustomCursor';
-import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { useAdminStore } from '@/stores/adminStore';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 
@@ -14,11 +13,6 @@ const ProjectDetailPage = lazy(() => import('@/pages/ProjectDetailPage'));
 const HomePage = lazy(() => import('@/pages/HomePage'));
 const ProjectsPage = lazy(() => import('@/pages/ProjectsPage'));
 const AdminLoginPage = lazy(() => import('@/pages/AdminLoginPage'));
-const AdminPage = lazy(() => import('@/pages/AdminPage'));
-const AdminProjectsPage = lazy(() => import('@/pages/AdminProjectsPage'));
-const AdminProjectDetailPage = lazy(() => import('@/pages/AdminProjectDetailPage'));
-const AdminSettingsPage = lazy(() => import('@/pages/AdminSettingsPage'));
-const AdminMediaPage = lazy(() => import('@/pages/AdminMediaPage'));
 
 // Loading component
 const SectionLoader: React.FC = () => (
@@ -76,11 +70,6 @@ const App: React.FC = () => {
               <Route path="/projects" element={<ProjectsPage />} />
               <Route path="/project/:projectId" element={<ProjectDetailPage />} />
               <Route path="/admin/login" element={<AdminLoginPage />} />
-              <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
-              <Route path="/admin/projects" element={<ProtectedRoute><AdminProjectsPage /></ProtectedRoute>} />
-              <Route path="/admin/project/:projectId" element={<ProtectedRoute><AdminProjectDetailPage /></ProtectedRoute>} />
-              <Route path="/admin/settings" element={<ProtectedRoute><AdminSettingsPage /></ProtectedRoute>} />
-              <Route path="/admin/media" element={<ProtectedRoute><AdminMediaPage /></ProtectedRoute>} />
             </Routes>
           </Suspense>
           

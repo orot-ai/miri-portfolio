@@ -14,8 +14,13 @@ interface ProjectsSectionProps {
 
 export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ className = '' }) => {
   const { isAdminMode } = useAdminStore();
-  const { content, updateContent } = useAdminContent('projects_section');
-  const { getContentValue, handleContentUpdate } = useContentHelpers({ content, updateContent });
+  const { content, updateContent, refetch } = useAdminContent('projects_section');
+  const { getContentValue, handleContentUpdate } = useContentHelpers({ 
+    content, 
+    updateContent, 
+    section: 'projects_section',
+    refetch 
+  });
   const { ref: headerRef, controls: headerControls } = useScrollAnimation({ threshold: 0.2 });
   const navigate = useNavigate();
 

@@ -26,12 +26,62 @@ export class AdminAPI {
   }
 
   static async updateContent(id: string, content: string): Promise<void> {
-    const { error } = await supabaseAdmin
-      .from('portfolio_content')
-      .update({ content, updated_at: new Date().toISOString() })
-      .eq('id', id)
+    console.log('[AdminAPI.updateContent] 시작:', { id, content })
     
-    if (error) throw error
+    try {
+      const { data, error } = await supabaseAdmin
+        .from('portfolio_content')
+        .update({ content, updated_at: new Date().toISOString() })
+        .eq('id', id)
+        .select()
+      
+      if (error) {
+        console.error('[AdminAPI.updateContent] Supabase 에러:', error)
+        throw error
+      }
+      
+      console.log('[AdminAPI.updateContent] 성공:', data)
+    } catch (error) {
+      console.error('[AdminAPI.updateContent] 전체 에러:', error)
+      throw error
+    }
+  }
+
+  static async updateContentByField(section: string, field: string, content: string): Promise<void> {
+    // 먼저 해당 섹션과 필드의 레코드가 있는지 확인
+    const { data: existingData, error: selectError } = await supabaseAdmin
+      .from('portfolio_content')
+      .select('id')
+      .eq('section', section)
+      .eq('field', field)
+      .single()
+    
+    if (selectError && selectError.code !== 'PGRST116') {
+      // PGRST116은 "not found" 에러 코드
+      throw selectError
+    }
+    
+    if (existingData) {
+      // 기존 레코드 업데이트
+      const { error } = await supabaseAdmin
+        .from('portfolio_content')
+        .update({ content, updated_at: new Date().toISOString() })
+        .eq('id', existingData.id)
+      
+      if (error) throw error
+    } else {
+      // 새 레코드 생성
+      const { error } = await supabaseAdmin
+        .from('portfolio_content')
+        .insert({
+          section,
+          field,
+          content,
+          content_type: 'text'
+        })
+      
+      if (error) throw error
+    }
   }
 
   static async createContent(section: string, field: string, content: string, contentType = 'text'): Promise<PortfolioContent> {
@@ -185,6 +235,21 @@ export class AdminAPI {
     }
   }
 
+  static async updateProjectMedia(projectId: string, mediaField: string, mediaUrl: string, mediaType: 'image' | 'video'): Promise<void> {
+    const updates: any = {
+      [mediaField]: mediaUrl,
+      [`${mediaField}_type`]: mediaType,
+      updated_at: new Date().toISOString()
+    }
+    
+    const { error } = await supabaseAdmin
+      .from('projects')
+      .update(updates)
+      .eq('id', projectId)
+    
+    if (error) throw error
+  }
+
   // 사이트 설정 관련 메서드
   static async getSiteSettings(): Promise<SiteSettings[]> {
     const { data, error } = await supabase
@@ -213,9 +278,13 @@ export class AdminAPI {
     const fileName = `${Date.now()}-${file.name}`
     const filePath = `${path}/${fileName}`
     
-    // 파일 크기 제한 체크 (10MB)
-    if (file.size > 10 * 1024 * 1024) {
-      throw new Error('파일 크기가 10MB를 초과합니다. 더 작은 파일을 선택해주세요.')
+    // 파일 크기 제한 체크 (이미지 10MB, 동영상 50MB)
+    const isVideo = file.type.startsWith('video/')
+    const maxSize = isVideo ? 50 * 1024 * 1024 : 10 * 1024 * 1024
+    
+    if (file.size > maxSize) {
+      const maxSizeText = isVideo ? '50MB' : '10MB'
+      throw new Error(`파일 크기가 ${maxSizeText}를 초과합니다. 더 작은 파일을 선택해주세요.`)
     }
     
     logger.info('파일 업로드 시작:', { fileName, fileSize: file.size, filePath })

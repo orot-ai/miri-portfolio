@@ -12,8 +12,13 @@ interface HeroSectionProps {
 export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const { isAdminMode } = useAdminStore();
-  const { content, updateContent } = useAdminContent('hero_section');
-  const { getContentValue, handleContentUpdate } = useContentHelpers({ content, updateContent });
+  const { content, updateContent, refetch } = useAdminContent('hero_section');
+  const { getContentValue, handleContentUpdate } = useContentHelpers({ 
+    content, 
+    updateContent, 
+    section: 'hero_section',
+    refetch 
+  });
 
   useEffect(() => {
     // Trigger animations after component mounts

@@ -15,8 +15,13 @@ interface WorkProcessSectionProps {
 
 export const WorkProcessSection: React.FC<WorkProcessSectionProps> = ({ className = '' }) => {
   const { isAdminMode } = useAdminStore();
-  const { content, updateContent } = useAdminContent('work_section');
-  const { getContentValue, handleContentUpdate } = useContentHelpers({ content, updateContent });
+  const { content, updateContent, refetch } = useAdminContent('work_section');
+  const { getContentValue, handleContentUpdate } = useContentHelpers({ 
+    content, 
+    updateContent, 
+    section: 'work_section',
+    refetch 
+  });
   const { ref: titleRef, controls: titleControls } = useScrollAnimation({ 
     threshold: 0.3,
     delay: 100
