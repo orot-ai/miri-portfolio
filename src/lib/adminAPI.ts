@@ -150,12 +150,19 @@ export class AdminAPI {
   }
 
   static async updateProject(id: string, updates: Partial<Project>): Promise<void> {
+    logger.info('AdminAPI.updateProject 호출:', { id, updates });
+    
     const { error } = await supabaseAdmin
       .from('projects')
       .update({ ...updates, updated_at: new Date().toISOString() })
       .eq('id', id)
     
-    if (error) throw error
+    if (error) {
+      logger.error('AdminAPI.updateProject 에러:', error);
+      throw error;
+    }
+    
+    logger.info('AdminAPI.updateProject 성공');
   }
 
   static async createProject(projectData: Omit<Project, 'id' | 'created_at' | 'updated_at'>): Promise<Project> {
@@ -238,8 +245,14 @@ export class AdminAPI {
   static async updateProjectMedia(projectId: string, mediaField: string, mediaUrl: string, mediaType: 'image' | 'video'): Promise<void> {
     const updates: any = {
       [mediaField]: mediaUrl,
-      [`${mediaField}_type`]: mediaType,
       updated_at: new Date().toISOString()
+    }
+    
+    // detail_media_url의 경우 type 필드명이 detail_media_type (url 제거)
+    if (mediaField === 'detail_media_url') {
+      updates['detail_media_type'] = mediaType;
+    } else {
+      updates[`${mediaField}_type`] = mediaType;
     }
     
     const { error } = await supabaseAdmin

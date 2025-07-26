@@ -129,6 +129,7 @@ export const EditableMedia: React.FC<EditableMediaProps> = ({
             src={displaySrc} 
             className={className}
             controls={!isAdminMode}
+            autoPlay
             muted
             loop
             playsInline
