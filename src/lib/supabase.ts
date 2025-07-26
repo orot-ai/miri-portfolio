@@ -3,15 +3,15 @@ import { Project } from '@/types'
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+// 프로덕션에서는 SERVICE_KEY 사용 안 함 (보안상 위험)
 const supabaseServiceKey = import.meta.env.VITE_SUPABASE_SERVICE_KEY
 
 if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Supabase URL과 ANON KEY가 환경변수에 설정되어 있지 않습니다.')
 }
 
-if (!supabaseServiceKey) {
-  throw new Error('Supabase SERVICE KEY가 환경변수에 설정되어 있지 않습니다.')
-}
+// SERVICE_KEY는 개발 환경에서만 사용 (프로덕션에서는 RLS 활성화 필요)
+const isDevelopment = import.meta.env.DEV
 
 // 싱글톤 패턴으로 클라이언트 생성
 let _supabase: any = null
@@ -25,15 +25,22 @@ export const supabase = (() => {
   return _supabase
 })()
 
-// 관리자용 클라이언트 (전체 권한, RLS 우회)
+// 관리자용 클라이언트 (개발 환경에서만 사용)
 export const supabaseAdmin = (() => {
   if (!_supabaseAdmin) {
-    _supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false
-      }
-    })
+    if (isDevelopment && supabaseServiceKey) {
+      // 개발 환경에서만 SERVICE_KEY 사용
+      _supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false
+        }
+      })
+    } else {
+      // 프로덕션에서는 일반 클라이언트 사용 (RLS 적용)
+      console.warn('프로덕션 환경: 관리자 기능이 제한됩니다. RLS 정책을 활성화하세요.')
+      _supabaseAdmin = createClient(supabaseUrl, supabaseAnonKey)
+    }
   }
   return _supabaseAdmin
 })()
