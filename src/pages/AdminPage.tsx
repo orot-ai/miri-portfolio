@@ -26,7 +26,6 @@ const AdminPage: React.FC = () => {
   // 실제 서버 저장
   const handleSaveAll = async () => {
     try {
-      console.log('서버에 저장할 데이터:', unsavedChanges)
       // TODO: 실제 API 호출로 서버에 저장
       // await saveToServer(unsavedChanges)
       
@@ -34,7 +33,6 @@ const AdminPage: React.FC = () => {
       setHasUnsavedChanges(false)
       alert('모든 변경사항이 저장되었습니다!')
     } catch (error) {
-      console.error('저장 실패:', error)
       alert('저장에 실패했습니다. 다시 시도해주세요.')
     }
   }

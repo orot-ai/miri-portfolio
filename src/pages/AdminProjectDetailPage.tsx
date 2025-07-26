@@ -131,18 +131,10 @@ const AdminProjectDetailPage: React.FC = () => {
   // 저장
   const handleSave = async () => {
     try {
-      console.log('저장할 데이터:', {
-        project,
-        images,
-        features,
-        detailDescription,
-        techStackDetail
-      })
       // TODO: 실제 API 호출로 저장
       setHasChanges(false)
       alert('프로젝트가 성공적으로 저장되었습니다!')
     } catch (error) {
-      console.error('저장 실패:', error)
       alert('저장에 실패했습니다. 다시 시도해주세요.')
     }
   }

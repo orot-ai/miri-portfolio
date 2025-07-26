@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { Project } from '@/types'
 import { arrayMove } from '@dnd-kit/sortable'
 import { DragEndEvent } from '@dnd-kit/core'
+import { logger } from '@/utils/logger'
 
 interface UseProjectOrderProps {
   projects: Project[]
@@ -47,12 +48,12 @@ export const useProjectOrder = ({
       if (!success) {
         // 실패 시 원래 순서로 복원
         setOrderedProjects(orderedProjects)
-        console.error('프로젝트 순서 업데이트에 실패했습니다')
+        logger.error('프로젝트 순서 업데이트에 실패했습니다')
       }
     } catch (error) {
       // 에러 시 원래 순서로 복원
       setOrderedProjects(orderedProjects)
-      console.error('프로젝트 순서 업데이트 중 에러:', error)
+      logger.error('프로젝트 순서 업데이트 중 에러:', error)
     } finally {
       setIsReordering(false)
     }

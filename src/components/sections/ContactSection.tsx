@@ -162,7 +162,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ className = '' }
                   } : {}}
                   whileTap={!isAdminMode ? { scale: 0.98 } : {}}
                   onClick={!isAdminMode ? () => window.open(contact.href, contact.href.startsWith('http') ? '_blank' : '_self') : (e) => {
-                    console.log('📧 Contact 카드 클릭 - 관리자 모드에서 무시됨');
                     e.preventDefault();
                     e.stopPropagation();
                   }}

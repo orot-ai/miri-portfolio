@@ -63,7 +63,6 @@ export const EditableText: React.FC<EditableTextProps> = ({
   }, [isEditing, editValue])
 
   const handleEdit = useCallback((e?: React.MouseEvent) => {
-    console.log('🔥 EditableText 클릭됨!', { disabled, isAdminMode, value })
     logger.debug('EditableText 클릭됨', { disabled, isAdminMode, value })
     
     // 이벤트 전파 중단
@@ -73,12 +72,10 @@ export const EditableText: React.FC<EditableTextProps> = ({
     }
     
     if (disabled || !isAdminMode) {
-      console.log('❌ 편집 불가능:', { disabled, isAdminMode })
       logger.debug('편집 불가능:', { disabled, isAdminMode })
       return
     }
     
-    console.log('✅ 편집 모드 활성화!')
     logger.debug('편집 모드 활성화')
     setIsEditing(true)
     setEditValue(value)
