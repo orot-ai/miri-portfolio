@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MIRI - 바이브코딩 개발자</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Meta -->
+    <meta name="description" content="바이브코딩으로 만드는 디지털 경험. AI와 대화로 웹 애플리케이션을 개발하는 미리의 포트폴리오">
+    <meta name="keywords" content="바이브코딩, 웹개발, React, AI, 자동화, 포트폴리오">
+    <meta name="author" content="MIRI">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="MIRI - 바이브코딩 개발자">
+    <meta property="og:description" content="바이브코딩으로 만드는 디지털 경험">
+    <meta property="og:type" content="website">
+    
+    <style>
+      /* Prevent FOUC */
+      html { visibility: hidden; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <script>
+      /* Show page after load */
+      document.addEventListener('DOMContentLoaded', function() {
+        document.documentElement.style.visibility = 'visible';
+        document.documentElement.style.opacity = '1';
+      });
+    </script>
+  </body>
+</html>
