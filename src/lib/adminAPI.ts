@@ -63,19 +63,35 @@ export class AdminAPI {
 
   static async getProjectsByCategory(category: 'vibe' | 'automation'): Promise<Project[]> {
     try {
-      // order_index 우선 정렬, null인 경우 뒤로 정렬하고 created_at으로 2차 정렬
-      const { data, error } = await supabase
+      logger.info(`Fetching projects for category: ${category}`)
+      
+      // 먼저 order_index를 포함해서 시도
+      let { data, error } = await supabase
         .from('projects')
         .select('*')
         .eq('category', category)
         .order('order_index', { ascending: true, nullsLast: true })
         .order('created_at', { ascending: false })
       
+      // order_index 컬럼이 없으면 fallback 쿼리 실행
+      if (error && error.code === '42703') {
+        logger.warn('order_index column not found, using fallback query')
+        const fallbackResult = await supabase
+          .from('projects')
+          .select('*')
+          .eq('category', category)
+          .order('created_at', { ascending: false })
+        
+        data = fallbackResult.data
+        error = fallbackResult.error
+      }
+      
       if (error) {
         logger.error('Failed to fetch projects by category:', error)
         throw new Error(`프로젝트를 불러오는데 실패했습니다: ${error.message}`)
       }
       
+      logger.info(`Successfully fetched ${data?.length || 0} projects for category: ${category}`)
       return data || []
     } catch (error) {
       logger.error('Error in getProjectsByCategory:', error)
@@ -137,19 +153,35 @@ export class AdminAPI {
   }
 
   static async updateProjectsOrder(projects: { id: string; order_index: number }[]): Promise<void> {
-    // 각 프로젝트의 order_index를 개별적으로 업데이트
-    const updatePromises = projects.map(({ id, order_index }) =>
-      supabaseAdmin
-        .from('projects')
-        .update({ order_index, updated_at: new Date().toISOString() })
-        .eq('id', id)
-    );
+    try {
+      logger.info('Updating projects order:', projects.length)
+      
+      // 각 프로젝트의 order_index를 개별적으로 업데이트
+      const updatePromises = projects.map(({ id, order_index }) =>
+        supabaseAdmin
+          .from('projects')
+          .update({ order_index, updated_at: new Date().toISOString() })
+          .eq('id', id)
+      );
 
-    const results = await Promise.all(updatePromises);
-    
-    // 에러가 있는지 확인
-    for (const result of results) {
-      if (result.error) throw result.error;
+      const results = await Promise.all(updatePromises);
+      
+      // 에러가 있는지 확인
+      for (const result of results) {
+        if (result.error) {
+          // order_index 컬럼이 없으면 경고만 로그하고 계속 진행
+          if (result.error.code === '42703') {
+            logger.warn('order_index column not found, skipping order update')
+            return
+          }
+          throw result.error;
+        }
+      }
+      
+      logger.info('Successfully updated projects order')
+    } catch (error) {
+      logger.error('Error updating projects order:', error)
+      throw error
     }
   }
 
