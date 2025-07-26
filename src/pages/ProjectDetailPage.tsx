@@ -259,6 +259,7 @@ const ProjectDetailPage: React.FC = () => {
                 onSave={(value) => handleDescriptionUpdate(value, 'description_detail_top')}
                 placeholder="프로젝트 설명 (짧게)"
                 multiline
+                className="whitespace-pre-line"
               />
             </p>
 
@@ -462,6 +463,7 @@ const ProjectDetailPage: React.FC = () => {
                     onSave={(value) => handleDescriptionUpdate(value, 'description_detail_bottom')}
                     placeholder="상세 설명을 입력하세요 (길게)"
                     multiline
+                    className="whitespace-pre-line"
                   />
                 ) : (
                   <p className="whitespace-pre-line">{project.description_detail_bottom || project.description}</p>

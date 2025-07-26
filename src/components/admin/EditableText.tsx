@@ -196,7 +196,7 @@ export const EditableText: React.FC<EditableTextProps> = ({
 
   return (
     <span 
-      className={`group relative inline-block ${isAdminMode && !disabled ? 'cursor-pointer hover:bg-gray-50 hover:bg-opacity-20' : ''} rounded transition-colors ${disabled ? 'cursor-not-allowed opacity-50' : ''} ${className}`}
+      className={`group relative inline-block ${isAdminMode && !disabled ? 'cursor-pointer hover:bg-gray-50 hover:bg-opacity-20' : ''} rounded transition-colors ${disabled ? 'cursor-not-allowed opacity-50' : ''} ${multiline ? 'whitespace-pre-line' : ''} ${className}`}
       onClick={(e) => {
         if (isAdminMode && !disabled) {
           e.preventDefault();
