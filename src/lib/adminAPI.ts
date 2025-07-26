@@ -181,21 +181,79 @@ export class AdminAPI {
     const fileName = `${Date.now()}-${file.name}`
     const filePath = `${path}/${fileName}`
     
-    const { error: uploadError } = await supabaseAdmin.storage
-      .from('portfolio-images')
-      .upload(filePath, file, {
-        cacheControl: '3600',
-        upsert: true
-      })
+    // 파일 크기 제한 체크 (10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      throw new Error('파일 크기가 10MB를 초과합니다. 더 작은 파일을 선택해주세요.')
+    }
     
-    if (uploadError) throw uploadError
+    logger.info('파일 업로드 시작:', { fileName, fileSize: file.size, filePath })
     
-    // 공개 URL 반환
-    const { data } = supabaseAdmin.storage
-      .from('portfolio-images')
-      .getPublicUrl(filePath)
-    
-    return data.publicUrl
+    try {
+      // 재시도 로직 (최대 3회)
+      let uploadError: any = null
+      let retryCount = 0
+      const maxRetries = 3
+      
+      while (retryCount < maxRetries) {
+        try {
+          const { data, error } = await supabaseAdmin.storage
+            .from('portfolio-images')
+            .upload(filePath, file, {
+              cacheControl: '3600',
+              upsert: true
+            })
+          
+          if (!error) {
+            logger.info('파일 업로드 성공:', { fileName, retryCount })
+            break
+          }
+          
+          uploadError = error
+          retryCount++
+          
+          if (retryCount < maxRetries) {
+            logger.warn(`파일 업로드 실패, 재시도 ${retryCount}/${maxRetries}:`, error)
+            // 지수적 백오프: 1초, 2초, 4초 대기
+            await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, retryCount - 1)))
+          }
+        } catch (networkError) {
+          uploadError = networkError
+          retryCount++
+          
+          if (retryCount < maxRetries) {
+            logger.warn(`네트워크 오류 발생, 재시도 ${retryCount}/${maxRetries}:`, networkError)
+            await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, retryCount - 1)))
+          }
+        }
+      }
+      
+      if (uploadError) {
+        logger.error('파일 업로드 최종 실패:', uploadError)
+        
+        // 구체적인 오류 메시지 제공
+        if (uploadError.message?.includes('504')) {
+          throw new Error('서버 응답 시간 초과입니다. 잠시 후 다시 시도해주세요.')
+        } else if (uploadError.message?.includes('413')) {
+          throw new Error('파일이 너무 큽니다. 더 작은 파일을 선택해주세요.')
+        } else if (uploadError.message?.includes('401') || uploadError.message?.includes('403')) {
+          throw new Error('인증에 실패했습니다. 페이지를 새로고침하고 다시 시도해주세요.')
+        } else {
+          throw new Error(`파일 업로드에 실패했습니다: ${uploadError.message || '알 수 없는 오류'}`)
+        }
+      }
+      
+      // 공개 URL 반환
+      const { data } = supabaseAdmin.storage
+        .from('portfolio-images')
+        .getPublicUrl(filePath)
+      
+      logger.info('공개 URL 생성 완료:', data.publicUrl)
+      return data.publicUrl
+      
+    } catch (error) {
+      logger.error('uploadFile 전체 오류:', error)
+      throw error
+    }
   }
 
   static async getMediaFiles(): Promise<any[]> {
