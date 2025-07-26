@@ -13,37 +13,18 @@ if (!supabaseUrl || !supabaseAnonKey) {
 // SERVICE_KEY는 개발 환경에서만 사용 (프로덕션에서는 RLS 활성화 필요)
 const isDevelopment = import.meta.env.DEV
 
-// 싱글톤 패턴으로 클라이언트 생성
-let _supabase: any = null
-let _supabaseAdmin: any = null
+// 클라이언트 인스턴스 (싱글톤)
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-// 일반 사용자용 클라이언트 (읽기 전용)
-export const supabase = (() => {
-  if (!_supabase) {
-    _supabase = createClient(supabaseUrl, supabaseAnonKey)
-  }
-  return _supabase
-})()
-
-// 관리자용 클라이언트 (개발 환경에서만 사용)
-export const supabaseAdmin = (() => {
-  if (!_supabaseAdmin) {
-    if (isDevelopment && supabaseServiceKey) {
-      // 개발 환경에서만 SERVICE_KEY 사용
-      _supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
-        auth: {
-          autoRefreshToken: false,
-          persistSession: false
-        }
-      })
-    } else {
-      // 프로덕션에서는 일반 클라이언트 사용 (RLS 적용)
-      console.warn('프로덕션 환경: 관리자 기능이 제한됩니다. RLS 정책을 활성화하세요.')
-      _supabaseAdmin = createClient(supabaseUrl, supabaseAnonKey)
-    }
-  }
-  return _supabaseAdmin
-})()
+// 관리자용 클라이언트 
+export const supabaseAdmin = isDevelopment && supabaseServiceKey
+  ? createClient(supabaseUrl, supabaseServiceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    })
+  : supabase  // 프로덕션에서는 같은 클라이언트 재사용
 
 // 데이터베이스 타입 정의
 export interface PortfolioContent {
