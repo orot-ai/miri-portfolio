@@ -248,8 +248,7 @@ export const EditableProjectCard: React.FC<EditableProjectCardProps> = ({
                       await updateProject(project.id, { tech_stack: updatedTechStack })
                       return true
                     }}
-                    className="inline-block min-w-[60px]"
-                    style={{ padding: '2px 4px' }}
+                    className="inline-block min-w-[60px] px-1"
                   />
                   <button
                     onClick={(e) => {

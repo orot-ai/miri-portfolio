@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
-import { floatingElements } from '@/data';
 import { useAdminStore } from '@/stores/adminStore';
 import { EditableText } from '@/components/admin/EditableText';
 import { useAdminContent } from '@/hooks/useAdminContent';
@@ -186,11 +183,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
               display: 'inline-block'
             }}
             onMouseEnter={!isAdminMode ? (e) => {
-              e.currentTarget.style.WebkitTextFillColor = '#0A0A0A';
+              e.currentTarget.style.webkitTextFillColor = '#0A0A0A';
               e.currentTarget.style.transform = 'translateX(10px)';
             } : undefined}
             onMouseLeave={!isAdminMode ? (e) => {
-              e.currentTarget.style.WebkitTextFillColor = 'transparent';
+              e.currentTarget.style.webkitTextFillColor = 'transparent';
               e.currentTarget.style.transform = 'translateX(0px)';
             } : undefined}
           >

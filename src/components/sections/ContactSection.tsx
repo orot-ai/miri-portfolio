@@ -212,7 +212,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ className = '' }
                 size="lg"
                 href={!isAdminMode ? `mailto:${getContentValue('email') || 'miri@orot-ai.com'}` : undefined}
                 className="bg-transparent border-white text-white hover:!bg-white hover:!text-black transition-colors duration-300"
-                onClick={isAdminMode ? (e) => e.preventDefault() : undefined}
+                onClick={isAdminMode ? (e: React.MouseEvent) => e.preventDefault() : undefined}
               >
                 <EditableText
                   value={getContentValue('cta_button') || ''}
