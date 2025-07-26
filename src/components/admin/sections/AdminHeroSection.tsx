@@ -53,7 +53,7 @@ export const AdminHeroSection: React.FC<AdminHeroSectionProps> = ({ onTempSave }
             }}
           >
             <EditableText
-              value={getContentValue('title_line2') || 'DEVELOPER'}
+              value={getContentValue('title_line2') || 'NON-DEVELOPER'}
               onSave={(value) => handleContentUpdate('title_line2', value)}
               onTempSave={(value) => onTempSave('hero', 'title_line2', value)}
             />

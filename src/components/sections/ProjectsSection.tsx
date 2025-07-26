@@ -112,7 +112,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ className = ''
                   } : {}}
                 >
                   <EditableText
-                    value={getContentValue('vibe_subtitle') || '생각이 끝나기 전에 프로토타입이 돌아가는 개발'}
+                    value={getContentValue('vibe_subtitle') || '생각이 끝나기 전에 프로토타입이 돌아가는 바이브코딩'}
                     onSave={(value) => handleContentUpdate('vibe_subtitle', value)}
                     className="inline"
                   />

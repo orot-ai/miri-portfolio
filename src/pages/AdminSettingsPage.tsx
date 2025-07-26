@@ -24,7 +24,7 @@ const AdminSettingsPage: React.FC = () => {
     const initialSettings: SiteSetting[] = [
       // 일반 설정
       { key: 'site_title', value: '미리 포트폴리오', label: '사이트 제목', type: 'text' },
-      { key: 'site_description', value: '창의적인 아이디어를 현실로 만드는 개발자 미리의 포트폴리오입니다.', label: '사이트 설명', type: 'text' },
+      { key: 'site_description', value: '바이브코딩 방법론으로 창의적인 아이디어를 현실로 만드는 비개발자 미리의 포트폴리오입니다.', label: '사이트 설명', type: 'text' },
       { key: 'contact_email', value: 'miri@example.com', label: '연락처 이메일', type: 'email' },
       
       // 디스플레이 설정

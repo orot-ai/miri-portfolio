@@ -178,7 +178,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
             } : undefined}
           >
             <EditableText
-              value={getContentValue('title_line2') || 'DEVELOPER'}
+              value={getContentValue('title_line2') || 'NON-DEVELOPER'}
               onSave={(value) => handleContentUpdate('title_line2', value)}
               className="inline"
             />

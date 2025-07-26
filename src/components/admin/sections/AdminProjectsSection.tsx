@@ -69,7 +69,7 @@ export const AdminProjectsSection: React.FC<AdminProjectsSectionProps> = ({ onTe
                 </h3>
                 <p className="text-2xl text-gray-400">
                   <EditableText
-                    value={getContentValue('vibe_subtitle') || '생각이 끝나기 전에 프로토타입이 돌아가는 개발'}
+                    value={getContentValue('vibe_subtitle') || '생각이 끝나기 전에 프로토타입이 돌아가는 바이브코딩'}
                     onSave={(value) => handleContentUpdate('vibe_subtitle', value)}
                     onTempSave={(value) => onTempSave('projects', 'vibe_subtitle', value)}
                     className="text-gray-400"

@@ -11,7 +11,7 @@ export const vibeProjects: Project[] = [
     featured: true,
     url: 'https://sulsul-ai.com/',
     detailDescription: `
-      바이브코딩으로 개발한 AI 기반 블로그 콘텐츠 자동 생성 SaaS 플랫폼입니다.
+      바이브코딩 방법론으로 구현한 AI 기반 블로그 콘텐츠 자동 생성 SaaS 플랫폼입니다.
       
       키워드만 입력하면 AI가 SEO에 최적화된 블로그 글을 자동으로 생성해드립니다. 
       브랜드 톤앤매너 설정부터 다양한 포맷 지원까지, 콘텐츠 마케팅의 모든 과정을 자동화했습니다.
@@ -40,7 +40,7 @@ export const vibeProjects: Project[] = [
     id: 'uniatr',
     title: 'UNIATR 홈페이지',
     category: 'Corporate Website',
-    description: '기업 웹사이트 풀스택 개발',
+    description: '기업 웹사이트 바이브코딩 구현',
     tags: ['Next.js 14', 'TypeScript', 'Tailwind CSS'],
     featured: true,
   },
