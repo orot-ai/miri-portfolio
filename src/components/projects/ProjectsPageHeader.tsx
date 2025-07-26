@@ -38,8 +38,8 @@ export const ProjectsPageHeader: React.FC<ProjectsPageHeaderProps> = ({
   return (
     <div className={`${sectionStyles.container} pt-24 pb-6`}>
       <motion.button
-        onClick={!isAdminMode ? () => navigate('/') : undefined}
-        className={`flex items-center gap-3 text-gray-600 ${!isAdminMode ? 'hover:text-black transition-colors' : ''} mb-8 group`}
+        onClick={() => navigate('/')}
+        className="flex items-center gap-3 text-gray-600 hover:text-black transition-colors mb-8 group cursor-pointer"
         initial={!isAdminMode ? { opacity: 0, x: -20 } : { opacity: 1, x: 0 }}
         animate={!isAdminMode ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
         transition={!isAdminMode ? { duration: 0.6 } : {}}
@@ -84,8 +84,8 @@ export const ProjectsPageHeader: React.FC<ProjectsPageHeaderProps> = ({
         {/* 탭 네비게이션 */}
         <div className="flex gap-4 justify-center">
           <motion.button
-            onClick={!isAdminMode ? () => onTabChange('vibe') : undefined}
-            className={`px-8 py-3 font-medium relative overflow-hidden w-60 transition-colors ${
+            onClick={() => onTabChange('vibe')}
+            className={`px-8 py-3 font-medium relative overflow-hidden w-60 transition-colors cursor-pointer ${
               activeTab === 'vibe' 
                 ? 'shadow-md border border-gray-200' 
                 : ''
@@ -106,8 +106,8 @@ export const ProjectsPageHeader: React.FC<ProjectsPageHeaderProps> = ({
           </motion.button>
           
           <motion.button
-            onClick={!isAdminMode ? () => onTabChange('automation') : undefined}
-            className={`px-8 py-3 font-medium relative overflow-hidden w-60 transition-colors ${
+            onClick={() => onTabChange('automation')}
+            className={`px-8 py-3 font-medium relative overflow-hidden w-60 transition-colors cursor-pointer ${
               activeTab === 'automation' 
                 ? 'shadow-md border border-gray-200' 
                 : ''

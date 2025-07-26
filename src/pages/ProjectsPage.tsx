@@ -8,6 +8,7 @@ import { ProjectsPageHeader } from '@/components/projects/ProjectsPageHeader';
 import { ProjectsGrid } from '@/components/projects/ProjectsGrid';
 import { Project } from '@/types';
 import { sectionStyles } from '@/utils/animations';
+import { supabase } from '@/lib/supabase';
 
 type TabType = 'vibe' | 'automation';
 
@@ -60,6 +61,7 @@ const ProjectsPage: React.FC = () => {
   const updateProject = activeTab === 'vibe' ? updateVibeProject : updateAutomationProject;
   const updateProjectsOrder = activeTab === 'vibe' ? updateVibeOrder : updateAutomationOrder;
   
+  
   // 프로젝트 순서 관리 (리팩토링된 훅 사용)
   const { orderedProjects, handleDragEnd, isReordering } = useProjectOrder({
     projects: currentProjects,
@@ -92,6 +94,7 @@ const ProjectsPage: React.FC = () => {
   };
 
   const handleTabChange = (newTab: TabType) => {
+    if (newTab === activeTab) return;
     setActiveTab(newTab);
     navigate(`/projects?tab=${newTab}`, { replace: true });
   };
@@ -114,10 +117,8 @@ const ProjectsPage: React.FC = () => {
   const handleDeleteProject = async (id: string) => {
     try {
       await deleteProject(id);
-      console.log('프로젝트 삭제 성공:', id);
     } catch (error) {
-      console.error('프로젝트 삭제 실패:', error);
-      throw error; // 에러를 다시 throw하여 EditableProjectCard에서 catch할 수 있도록
+      throw error;
     }
   }
 

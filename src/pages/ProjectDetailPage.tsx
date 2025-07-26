@@ -46,11 +46,11 @@ const ProjectDetailPage: React.FC = () => {
     return success;
   };
   
-  const handleDescriptionUpdate = async (newDescription: string) => {
+  const handleDescriptionUpdate = async (newDescription: string, field: string = 'description') => {
     if (!project) return false;
-    const success = await updateProject(project.id, { description: newDescription });
+    const success = await updateProject(project.id, { [field]: newDescription });
     if (success) {
-      setProject(prev => prev ? { ...prev, description: newDescription } : null);
+      setProject(prev => prev ? { ...prev, [field]: newDescription } : null);
     }
     return success;
   };
@@ -237,9 +237,9 @@ const ProjectDetailPage: React.FC = () => {
               style={{ fontFamily: 'Noto Sans KR, sans-serif' }}
             >
               <EditableText
-                value={project.description || ''}
-                onSave={handleDescriptionUpdate}
-                placeholder="프로젝트 설명"
+                value={project.description_detail_top || project.description || ''}
+                onSave={(value) => handleDescriptionUpdate(value, 'description_detail_top')}
+                placeholder="프로젝트 설명 (짧게)"
                 multiline
               />
             </p>
@@ -428,13 +428,13 @@ const ProjectDetailPage: React.FC = () => {
               >
                 {isAdminMode ? (
                   <EditableText
-                    value={project.description || ''}
-                    onSave={handleDescriptionUpdate}
-                    placeholder="상세 설명을 입력하세요"
+                    value={project.description_detail_bottom || project.description || ''}
+                    onSave={(value) => handleDescriptionUpdate(value, 'description_detail_bottom')}
+                    placeholder="상세 설명을 입력하세요 (길게)"
                     multiline
                   />
                 ) : (
-                  <p>{project.description}</p>
+                  <p className="whitespace-pre-line">{project.description_detail_bottom || project.description}</p>
                 )}
               </div>
             </div>

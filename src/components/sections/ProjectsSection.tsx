@@ -100,7 +100,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ className = ''
                 scale: 1.02,
                 ...sweepHoverEffect.whileHover
               } : {}}
-              onClick={!isAdminMode ? () => navigate('/projects?tab=vibe') : undefined}
+              onClick={() => navigate('/projects?tab=vibe')}
             >
               {/* 콘텐츠 영역 - 카드 안에 배치 */}
               <div className="h-full pl-24 pr-16 py-16 flex flex-col justify-center text-right">
@@ -153,7 +153,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ className = ''
                 scale: 1.02,
                 ...sweepHoverEffect.whileHover
               } : {}}
-              onClick={!isAdminMode ? () => navigate('/projects?tab=automation') : undefined}
+              onClick={() => navigate('/projects?tab=automation')}
             >
               {/* 콘텐츠 영역 - 카드 안에 배치 */}
               <div className="h-full p-16 flex flex-col justify-center text-left">

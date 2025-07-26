@@ -23,9 +23,7 @@ export const useProjectOrder = ({
 
   // 프로젝트 데이터가 변경되면 로컬 순서 상태 동기화
   useEffect(() => {
-    if (projects.length > 0) {
-      setOrderedProjects(projects)
-    }
+    setOrderedProjects(projects)
   }, [projects])
 
   const handleDragEnd = useCallback(async (event: DragEndEvent) => {

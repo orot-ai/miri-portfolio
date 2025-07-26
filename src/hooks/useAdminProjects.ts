@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { AdminAPI } from '@/lib/adminAPI'
 import { Project } from '@/types'
 import { logger } from '@/utils/logger'
+import { handleError } from '@/utils/errorHandler'
 
 export const useAdminProjects = (category?: 'vibe' | 'automation') => {
   const [projects, setProjects] = useState<Project[]>([])
@@ -67,7 +68,7 @@ export const useAdminProjects = (category?: 'vibe' | 'automation') => {
       const errorMessage = err instanceof Error ? err.message : '프로젝트 삭제에 실패했습니다'
       setError(errorMessage)
       logger.error('프로젝트 삭제 실패:', err)
-      throw new Error(errorMessage) // 에러를 throw하여 호출자가 catch할 수 있도록
+      throw new Error(errorMessage)
     }
   }
 

@@ -187,7 +187,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(({
           className="text-gray-600 mb-4 leading-relaxed"
           variants={itemVariants}
         >
-          {project.description}
+          {project.description_card || project.description}
         </motion.p>
 
         {/* Tags */}

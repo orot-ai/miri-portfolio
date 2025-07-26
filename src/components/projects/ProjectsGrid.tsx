@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Plus } from 'lucide-react'
 import { 
@@ -51,13 +51,14 @@ const SortableProjectCard: React.FC<SortableProjectCardProps> = ({
   }
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+    <div ref={setNodeRef} style={style} {...attributes}>
       <EditableProjectCard 
         project={project} 
         featured={project.featured}
         className="h-full"
         onDelete={onDelete}
         onUpdate={onUpdate}
+        dragHandleProps={listeners}
       />
     </div>
   )
@@ -87,6 +88,7 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
   isReordering = false
 }) => {
   const { isAdminMode } = useAdminStore()
+  
 
   // dnd-kit 센서 설정
   const sensors = useSensors(
@@ -120,17 +122,30 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
 
   if (projects.length === 0) {
     return (
-      <div className="text-center py-12">
-        <p className="text-gray-600 mb-4">아직 프로젝트가 없습니다.</p>
-        {isAdminMode && (
-          <button
-            onClick={onAddProject}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white shadow-lg hover:bg-purple-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-          >
-            <Plus size={20} />
-            첫 프로젝트 추가하기
-          </button>
-        )}
+      <div className="text-center py-32">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="max-w-lg mx-auto"
+        >
+          <p className="text-gray-400 text-lg">
+            {isAdminMode 
+              ? "등록된 프로젝트가 없습니다" 
+              : "준비 중입니다"}
+          </p>
+          {isAdminMode && (
+            <motion.button
+              onClick={onAddProject}
+              className="mt-8 inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white hover:bg-purple-700 transition-colors"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Plus size={20} />
+              프로젝트 추가
+            </motion.button>
+          )}
+        </motion.div>
       </div>
     )
   }

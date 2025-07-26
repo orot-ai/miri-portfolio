@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ExternalLink, Star, Edit, Trash2, Plus, GripVertical } from 'lucide-react'
+import { ExternalLink, Star, Edit, Trash2, Plus, GripVertical, Tag } from 'lucide-react'
 import { Project } from '@/types'
 import { EditableText } from './EditableText'
 import { EditableImage } from './EditableImage'
@@ -15,6 +15,7 @@ interface EditableProjectCardProps {
   className?: string
   onDelete?: () => void
   onUpdate?: (id: string, updates: Partial<Project>) => Promise<boolean>
+  dragHandleProps?: any // 드래그 핸들 props
 }
 
 export const EditableProjectCard: React.FC<EditableProjectCardProps> = ({
@@ -22,7 +23,8 @@ export const EditableProjectCard: React.FC<EditableProjectCardProps> = ({
   featured = false,
   className = '',
   onDelete,
-  onUpdate
+  onUpdate,
+  dragHandleProps
 }) => {
   
   const navigate = useNavigate()
@@ -35,17 +37,17 @@ export const EditableProjectCard: React.FC<EditableProjectCardProps> = ({
   const updateProject = onUpdate || defaultUpdateProject
 
   const handleClick = (e: React.MouseEvent) => {
-    // 드래그 중이거나 편집 모드에서는 카드 클릭 비활성화
-    if (isDragging || isAdminMode) {
+    // 버튼이나 다른 인터랙티브 요소를 클릭한 경우 무시
+    const target = e.target as HTMLElement
+    if (target.closest('button') || 
+        target.closest('[contenteditable="true"]') ||
+        target.closest('input') ||
+        target.closest('a')) {
       return
     }
     
-    // 편집 중인 요소를 클릭한 경우 네비게이션 방지
-    const target = e.target as HTMLElement
-    if (target.closest('[contenteditable="true"]') || 
-        target.closest('button') ||
-        target.closest('input') ||
-        target.closest('a')) {
+    // 드래그 중이거나 편집 모드에서는 카드 클릭 비활성화
+    if (isDragging || isAdminMode) {
       return
     }
     
@@ -54,26 +56,18 @@ export const EditableProjectCard: React.FC<EditableProjectCardProps> = ({
 
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation()
-    console.log('삭제 버튼 클릭됨, 프로젝트 ID:', project.id)
     
     if (!confirm(`'${project.title}' 프로젝트를 정말로 삭제하시겠습니까?`)) {
-      console.log('삭제 취소됨')
       return
     }
     
-    console.log('삭제 진행 중...')
     setIsDeleting(true)
     
     try {
       if (onDelete) {
-        console.log('onDelete 함수 호출')
         await onDelete()
-        console.log('삭제 성공')
-      } else {
-        console.error('onDelete 함수가 없습니다')
       }
     } catch (error) {
-      console.error('프로젝트 삭제 실패:', error)
       alert('프로젝트 삭제에 실패했습니다: ' + (error as Error).message)
     } finally {
       setIsDeleting(false)
@@ -85,20 +79,13 @@ export const EditableProjectCard: React.FC<EditableProjectCardProps> = ({
   }
 
   const handleDescriptionUpdate = async (newDescription: string) => {
-    return await updateProject(project.id, { description: newDescription })
+    return await updateProject(project.id, { description_card: newDescription })
   }
 
   const handleImageUpdate = async (file: File) => {
     try {
-      console.log('이미지 업로드 시작:', file.name, file.size, file.type)
-      
-      // Supabase 스토리지에 이미지 업로드
       const imageUrl = await AdminAPI.uploadFile(file, 'projects')
-      console.log('업로드된 이미지 URL:', imageUrl)
-      
-      // 데이터베이스 업데이트
       const success = await updateProject(project.id, { image_url: imageUrl })
-      console.log('DB 업데이트 결과:', success)
       
       if (success) {
         return imageUrl
@@ -106,7 +93,6 @@ export const EditableProjectCard: React.FC<EditableProjectCardProps> = ({
         throw new Error('이미지 URL 업데이트 실패')
       }
     } catch (error) {
-      console.error('이미지 업로드 오류:', error)
       alert('이미지 업로드에 실패했습니다. ' + (error as Error).message)
       throw error
     }
@@ -123,6 +109,17 @@ export const EditableProjectCard: React.FC<EditableProjectCardProps> = ({
   const handleTagRemove = async (tagToRemove: string) => {
     const updatedTechStack = project.tech_stack?.filter(tech => tech !== tagToRemove) || []
     await updateProject(project.id, { tech_stack: updatedTechStack })
+  }
+  
+  const handleCategoryChange = async () => {
+    const newCategory = project.category === 'vibe' ? 'automation' : 'vibe'
+    const categoryName = newCategory === 'vibe' ? '바이브코딩' : '자동화'
+    
+    if (!confirm(`이 프로젝트를 '${categoryName}' 카테고리로 이동하시겠습니까?\n현재 탭에서 사라지게 됩니다.`)) {
+      return
+    }
+    
+    await updateProject(project.id, { category: newCategory })
   }
 
   const handleFeatureToggle = async (e: React.MouseEvent) => {
@@ -150,8 +147,9 @@ export const EditableProjectCard: React.FC<EditableProjectCardProps> = ({
       {/* 드래그 표시 */}
       {isAdminMode && (
         <div 
-          className="absolute top-4 left-4 z-10 p-2 bg-gray-600 text-white rounded-lg opacity-80"
+          className="absolute top-4 left-4 z-10 p-2 bg-gray-600 text-white rounded-lg opacity-80 cursor-grab active:cursor-grabbing"
           title="카드를 드래그하여 순서 변경"
+          {...dragHandleProps}
         >
           <GripVertical size={16} />
         </div>
@@ -159,33 +157,48 @@ export const EditableProjectCard: React.FC<EditableProjectCardProps> = ({
 
       {/* 관리자 모드 컨트롤 */}
       {isAdminMode && (
-        <div className="absolute top-4 right-4 z-10 flex gap-2">
+        <div className="absolute top-4 right-4 z-50 flex gap-2 pointer-events-auto">
           <button
             onClick={(e) => {
+              e.preventDefault()
               e.stopPropagation()
               navigate(`/project/${project.id}`)
             }}
-            className="p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            onMouseDown={(e) => e.stopPropagation()}
+            className="p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors relative z-50"
             title="상세 페이지로 이동"
+            type="button"
           >
             <Edit size={16} />
           </button>
           <button
-            onClick={handleFeatureToggle}
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              handleFeatureToggle()
+            }}
+            onMouseDown={(e) => e.stopPropagation()}
             className={`p-2 rounded-lg ${
               project.featured 
                 ? 'bg-yellow-500 text-white' 
                 : 'bg-white text-gray-600 border border-gray-200'
-            } hover:opacity-80 transition-opacity`}
+            } hover:opacity-80 transition-opacity relative z-50`}
             title={project.featured ? 'Featured 해제' : 'Featured 설정'}
+            type="button"
           >
             <Star size={16} fill={project.featured ? 'white' : 'none'} />
           </button>
           <button
-            onClick={handleDelete}
-            className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              handleDelete(e)
+            }}
+            onMouseDown={(e) => e.stopPropagation()}
+            className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed relative z-50"
             disabled={isDeleting}
             title="프로젝트 삭제"
+            type="button"
           >
             {isDeleting ? '...' : <Trash2 size={16} />}
           </button>
@@ -206,8 +219,23 @@ export const EditableProjectCard: React.FC<EditableProjectCardProps> = ({
       {/* 프로젝트 정보 */}
       <div className="p-6">
         {/* 카테고리 */}
-        <div className="text-sm text-purple-600 font-medium mb-2">
-          {project.category === 'vibe' ? '바이브코딩' : '자동화'}
+        <div className="text-sm font-medium mb-2 flex items-center gap-2">
+          <span className={project.category === 'vibe' ? 'text-purple-600' : 'text-blue-600'}>
+            {project.category === 'vibe' ? '바이브코딩' : '자동화'}
+          </span>
+          {isAdminMode && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                handleCategoryChange()
+              }}
+              className="inline-flex items-center gap-1 px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded transition-colors"
+              title="카테고리 변경"
+            >
+              <Tag size={12} />
+              변경
+            </button>
+          )}
         </div>
 
         {/* 제목 */}
@@ -222,9 +250,9 @@ export const EditableProjectCard: React.FC<EditableProjectCardProps> = ({
         {/* 설명 */}
         <p className="text-gray-600 mb-4">
           <EditableText
-            value={project.description || ''}
+            value={project.description_card || project.description || ''}
             onSave={handleDescriptionUpdate}
-            placeholder="프로젝트 설명"
+            placeholder="프로젝트 설명 (카드용)"
             multiline
           />
         </p>

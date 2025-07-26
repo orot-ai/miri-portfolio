@@ -1,28 +1,57 @@
-export interface Project {
-  id: string;
-  title: string;
-  description?: string;
-  image_url?: string;
-  screenshot_1_url?: string;
-  screenshot_2_url?: string;
-  screenshot_3_url?: string;
-  thumbnail_1_url?: string;
-  thumbnail_2_url?: string;
-  thumbnail_3_url?: string;
-  thumbnail_4_url?: string;
-  tech_stack: string[];
-  category: 'vibe' | 'automation';
-  features: string[];
-  development_status: string;
-  github_url?: string;
-  demo_url?: string;
-  created_at: string;
-  updated_at: string;
-  order_index?: number; // 드래그 앤 드롭 순서
-  // UI용 추가 필드
-  tags?: string[]; // tech_stack을 태그로 표시
-  url?: string; // demo_url 별칭
-  featured?: boolean; // UI에서 사용
+import { BaseEntity } from './common'
+
+// 공통 타입 재내보내기
+export * from './common'
+
+// 프로젝트 카테고리
+export type ProjectCategory = 'vibe' | 'automation'
+
+// 프로젝트 상태
+export enum ProjectStatus {
+  Draft = 'draft',
+  InProgress = 'in_progress', 
+  Completed = 'completed',
+  Preparing = 'preparing'
+}
+
+// 프로젝트 타입
+export interface Project extends BaseEntity {
+  // 기본 정보
+  title: string
+  description?: string
+  
+  // 설명 버전별 필드
+  description_card?: string // 카드형 설명 (중간 길이)
+  description_detail_top?: string // 디테일 상단 설명 (짧게)
+  description_detail_bottom?: string // 디테일 하단 설명 (길게)
+  
+  // 이미지
+  image_url?: string
+  screenshot_1_url?: string
+  screenshot_2_url?: string
+  screenshot_3_url?: string
+  thumbnail_1_url?: string
+  thumbnail_2_url?: string
+  thumbnail_3_url?: string
+  thumbnail_4_url?: string
+  
+  // 메타데이터
+  tech_stack: string[]
+  category: ProjectCategory
+  features: string[]
+  development_status: string
+  
+  // 링크
+  github_url?: string
+  demo_url?: string
+  
+  // 정렬
+  order_index?: number
+  
+  // UI 전용 필드 (DB에 없음)
+  tags?: string[] // tech_stack 별칭
+  url?: string // demo_url 별칭
+  featured?: boolean
 }
 
 export interface DetailItem {

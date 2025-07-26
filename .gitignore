@@ -103,3 +103,10 @@ Thumbs.db
 # 프로젝트 분석 문서 (민감한 정보 포함 가능)
 프로젝트_*.md
 CLAUDE.md
+
+# 개발 문서 및 임시 파일
+CODE_STYLE_GUIDE.md
+REFACTORING_SUMMARY.md
+*.sql
+.env*
+!.env.example

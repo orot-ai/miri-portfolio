@@ -106,18 +106,34 @@ export class AdminAPI {
   static async deleteProject(id: string): Promise<void> {
     logger.info('프로젝트 삭제 시도:', id)
     
-    const { data, error } = await supabaseAdmin
-      .from('projects')
-      .delete()
-      .eq('id', id)
-      .select() // 삭제된 데이터 반환
-    
-    if (error) {
-      logger.error('프로젝트 삭제 실패:', error)
+    try {
+      // 먼저 프로젝트가 존재하는지 확인
+      const { data: existingProject, error: fetchError } = await supabaseAdmin
+        .from('projects')
+        .select('*')
+        .eq('id', id)
+        .single()
+      
+      if (fetchError) {
+        throw new Error(`프로젝트를 찾을 수 없습니다: ${fetchError.message}`)
+      }
+      
+      // 프로젝트 삭제
+      const { data, error } = await supabaseAdmin
+        .from('projects')
+        .delete()
+        .eq('id', id)
+        .select() // 삭제된 데이터 반환
+      
+      if (error) {
+        logger.error('프로젝트 삭제 실패:', error)
+        throw new Error(`프로젝트 삭제 실패: ${error.message}`)
+      }
+      
+      logger.info('프로젝트 삭제 성공:', data)
+    } catch (error) {
       throw error
     }
-    
-    logger.info('프로젝트 삭제 성공:', data)
   }
 
   static async updateProjectsOrder(projects: { id: string; order_index: number }[]): Promise<void> {

@@ -5,6 +5,7 @@ import Header from '@/components/layout/Header';
 import CustomCursor from '@/components/ui/CustomCursor';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { useAdminStore } from '@/stores/adminStore';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 // Lazy load pages
 const ProjectDetailPage = lazy(() => import('@/pages/ProjectDetailPage'));
@@ -53,30 +54,32 @@ const App: React.FC = () => {
   }, [isAdminMode]);
   
   return (
-    <Router>
-      <div className="min-h-screen bg-white">
-        {/* Custom Cursor */}
-        <CustomCursor />
-        
-        {/* Header */}
-        <Header />
-        
-        {/* Routes */}
-        <Suspense fallback={<SectionLoader />}>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/projects" element={<ProjectsPage />} />
-            <Route path="/project/:projectId" element={<ProjectDetailPage />} />
-            <Route path="/admin/login" element={<AdminLoginPage />} />
-            <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
-            <Route path="/admin/projects" element={<ProtectedRoute><AdminProjectsPage /></ProtectedRoute>} />
-            <Route path="/admin/project/:projectId" element={<ProtectedRoute><AdminProjectDetailPage /></ProtectedRoute>} />
-            <Route path="/admin/settings" element={<ProtectedRoute><AdminSettingsPage /></ProtectedRoute>} />
-            <Route path="/admin/media" element={<ProtectedRoute><AdminMediaPage /></ProtectedRoute>} />
-          </Routes>
-        </Suspense>
-      </div>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <div className="min-h-screen bg-white">
+          {/* Custom Cursor */}
+          <CustomCursor />
+          
+          {/* Header */}
+          <Header />
+          
+          {/* Routes */}
+          <Suspense fallback={<SectionLoader />}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/projects" element={<ProjectsPage />} />
+              <Route path="/project/:projectId" element={<ProjectDetailPage />} />
+              <Route path="/admin/login" element={<AdminLoginPage />} />
+              <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
+              <Route path="/admin/projects" element={<ProtectedRoute><AdminProjectsPage /></ProtectedRoute>} />
+              <Route path="/admin/project/:projectId" element={<ProtectedRoute><AdminProjectDetailPage /></ProtectedRoute>} />
+              <Route path="/admin/settings" element={<ProtectedRoute><AdminSettingsPage /></ProtectedRoute>} />
+              <Route path="/admin/media" element={<ProtectedRoute><AdminMediaPage /></ProtectedRoute>} />
+            </Routes>
+          </Suspense>
+        </div>
+      </Router>
+    </ErrorBoundary>
   );
 };
 
