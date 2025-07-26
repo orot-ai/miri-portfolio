@@ -162,6 +162,17 @@ import { commonVariants, hoverEffects, createSweepGradientStyle } from '@/utils/
 ## 🌐 배포
 
 ### Vercel (추천)
+
+#### 환경 변수 설정 (필수)
+Vercel 대시보드에서 다음 환경 변수를 설정해야 합니다:
+
+```env
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key  
+VITE_SUPABASE_SERVICE_KEY=your_supabase_service_key
+```
+
+#### 배포 방법
 ```bash
 # Vercel CLI 설치
 npm i -g vercel
@@ -169,6 +180,10 @@ npm i -g vercel
 # 배포
 vercel
 ```
+
+**주의사항:**
+- 환경 변수를 설정하지 않으면 빌드가 실패합니다
+- Production 환경에서는 보안을 위해 Service Key를 노출하지 마세요
 
 ### Netlify
 ```bash

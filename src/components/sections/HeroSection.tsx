@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useAdminStore } from '@/stores/adminStore';
 import { EditableText } from '@/components/admin/EditableText';
 import { useAdminContent } from '@/hooks/useAdminContent';
+import { useContentHelpers } from '@/hooks/useContentHelpers';
 
 interface HeroSectionProps {
   className?: string;
