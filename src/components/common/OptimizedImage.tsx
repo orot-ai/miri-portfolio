@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { Heart } from 'lucide-react';
 
 interface OptimizedImageProps {
   src: string;
@@ -71,9 +72,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
       {/* 에러 상태 */}
       {hasError && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-          <div className="text-gray-400 text-center">
-            <p className="text-lg font-medium">준비중이예요❤️</p>
-          </div>
+          <Heart className="w-8 h-8 text-gray-300" />
         </div>
       )}
     </div>

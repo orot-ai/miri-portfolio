@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink, Github, Heart } from 'lucide-react';
 import { Project } from '@/types';
 import { useAdminStore } from '@/stores/adminStore';
 import { LazyImage } from './LazyImage';
@@ -119,9 +119,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(({
             className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center"
             variants={imageVariants}
           >
-            <span className="text-gray-400 text-sm font-mono">
-              {project.title}
-            </span>
+            <Heart className="w-8 h-8 text-gray-300" />
           </motion.div>
         )}
         

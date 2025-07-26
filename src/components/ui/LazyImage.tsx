@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Heart } from 'lucide-react';
 
 interface LazyImageProps {
   src: string;
@@ -96,9 +97,7 @@ export const LazyImage: React.FC<LazyImageProps> = ({
       {hasError && (
         <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
           {fallback || (
-            <div className="text-gray-400 text-center">
-              <p className="text-lg font-medium">준비중이예요❤️</p>
-            </div>
+            <Heart className="w-8 h-8 text-gray-300" />
           )}
         </div>
       )}

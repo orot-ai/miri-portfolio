@@ -29,6 +29,8 @@ export interface ProjectDescriptions {
   description_card?: string // 카드형 설명 (중간 길이)
   description_detail_top?: string // 디테일 상단 설명 (짧게)
   description_detail_bottom?: string // 디테일 하단 설명 (길게)
+  section_title_line1?: string // 섹션 제목 첫 번째 줄
+  section_title_line2?: string // 섹션 제목 두 번째 줄
 }
 
 // 프로젝트 링크 인터페이스

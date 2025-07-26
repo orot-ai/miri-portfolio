@@ -151,9 +151,10 @@ export const EditableText: React.FC<EditableTextProps> = ({
             value={editValue}
             onChange={(e) => setEditValue(e.target.value)}
             onKeyDown={handleKeyPress}
-            className={`w-full p-2 border-2 border-purple-600 rounded focus:outline-none resize-none bg-transparent ${className}`}
+            className={`w-full p-3 border-2 border-purple-600 rounded focus:outline-none resize-y bg-transparent min-h-[120px] ${className}`}
             placeholder={placeholder}
             disabled={isLoading}
+            rows={6}
           />
         ) : (
           <input

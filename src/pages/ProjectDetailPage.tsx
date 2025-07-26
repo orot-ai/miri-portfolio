@@ -159,6 +159,24 @@ const ProjectDetailPage: React.FC = () => {
     }
     return success;
   };
+
+  const handleSectionTitleLine1Update = async (newTitle: string) => {
+    if (!project) return false;
+    const success = await updateProject(project.id, { section_title_line1: newTitle });
+    if (success) {
+      setProject(prev => prev ? { ...prev, section_title_line1: newTitle } : null);
+    }
+    return success;
+  };
+
+  const handleSectionTitleLine2Update = async (newTitle: string) => {
+    if (!project) return false;
+    const success = await updateProject(project.id, { section_title_line2: newTitle });
+    if (success) {
+      setProject(prev => prev ? { ...prev, section_title_line2: newTitle } : null);
+    }
+    return success;
+  };
   
   if (loading) {
     return (
@@ -415,9 +433,21 @@ const ProjectDetailPage: React.FC = () => {
                 className="text-2xl font-bold text-black mb-6"
                 style={{ fontFamily: 'Pretendard Variable, sans-serif' }}
               >
-                {isVibeProject ? '바이브코딩으로 만든' : '자동화로 해결한'}
+                <EditableText
+                  value={project.section_title_line1 || (isVibeProject ? '바이브코딩으로 만든' : '자동화로 해결한')}
+                  onSave={handleSectionTitleLine1Update}
+                  placeholder={isVibeProject ? '바이브코딩으로 만든' : '자동화로 해결한'}
+                  className="text-2xl"
+                />
                 <br />
-                <span className="text-3xl">{project.category === 'vibe' ? '프로젝트' : '시스템'}</span>
+                <span className="text-3xl">
+                  <EditableText
+                    value={project.section_title_line2 || (project.category === 'vibe' ? '프로젝트' : '시스템')}
+                    onSave={handleSectionTitleLine2Update}
+                    placeholder={project.category === 'vibe' ? '프로젝트' : '시스템'}
+                    className="text-3xl"
+                  />
+                </span>
               </h2>
               
               <div className="w-16 h-0.5 bg-black mb-6"></div>

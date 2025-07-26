@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { Upload, X, Check, Image as ImageIcon } from 'lucide-react'
+import { Upload, X, Check, Image as ImageIcon, Heart } from 'lucide-react'
 import { AdminAPI } from '@/lib/adminAPI'
 import { useAdminStore } from '@/stores/adminStore'
 import { logger } from '@/utils/logger'
@@ -115,8 +115,8 @@ export const EditableImage: React.FC<EditableImageProps> = ({
             className={className}
           />
         ) : (
-          <div className="flex flex-col items-center justify-center h-full min-h-[200px] text-gray-400">
-            <p className="text-lg font-medium">준비중이예요❤️</p>
+          <div className="flex flex-col items-center justify-center h-full min-h-[200px]">
+            <Heart className="w-8 h-8 text-gray-300" />
           </div>
         )}
 
