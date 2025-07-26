@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAdminStore } from '@/stores/adminStore';
 import { useAdminProjects } from '@/hooks/useAdminProjects';
 import { useAdminContent } from '@/hooks/useAdminContent';
+import { useContentHelpers } from '@/hooks/useContentHelpers';
 import { useProjectOrder } from '@/hooks/useProjectOrder';
 import { ProjectsPageHeader } from '@/components/projects/ProjectsPageHeader';
 import { ProjectsGrid } from '@/components/projects/ProjectsGrid';
@@ -51,6 +52,7 @@ const ProjectsPage: React.FC = () => {
   } = useAdminProjects('automation');
   
   const { content, updateContent } = useAdminContent('projects_page');
+  const { getContentValue, handleContentUpdate } = useContentHelpers({ content, updateContent });
   
   // 현재 탭에 따른 데이터와 함수들
   const currentProjects = activeTab === 'vibe' ? vibeProjects : automationProjects;
@@ -73,21 +75,6 @@ const ProjectsPage: React.FC = () => {
   }, []);
 
   // 헬퍼 함수들
-  const getContentValue = (field: string) => {
-    return content.find(item => item.field === field)?.content || ''
-  }
-  
-  const getContentId = (field: string) => {
-    return content.find(item => item.field === field)?.id || ''
-  }
-  
-  const handleContentUpdate = async (field: string, newValue: string) => {
-    const id = getContentId(field)
-    if (id) {
-      return await updateContent(id, newValue)
-    }
-    return false
-  }
   
   const handleProjectClick = (project: Project) => {
     navigate(`/project/${project.id}`);

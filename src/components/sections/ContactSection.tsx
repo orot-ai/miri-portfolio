@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { useAdminStore } from '@/stores/adminStore';
 import { EditableText } from '@/components/admin/EditableText';
 import { useAdminContent } from '@/hooks/useAdminContent';
+import { useContentHelpers } from '@/hooks/useContentHelpers';
 
 interface ContactSectionProps {
   className?: string;

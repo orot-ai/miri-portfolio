@@ -6,6 +6,7 @@ import { detailItems } from '@/data';
 import { useAdminStore } from '@/stores/adminStore';
 import { EditableText } from '@/components/admin/EditableText';
 import { useAdminContent } from '@/hooks/useAdminContent';
+import { useContentHelpers } from '@/hooks/useContentHelpers';
 
 interface AboutSectionProps {
   className?: string;
@@ -14,6 +15,7 @@ interface AboutSectionProps {
 export const AboutSection: React.FC<AboutSectionProps> = ({ className = '' }) => {
   const { isAdminMode } = useAdminStore();
   const { content, updateContent } = useAdminContent('about_section');
+  const { getContentValue, handleContentUpdate } = useContentHelpers({ content, updateContent });
   const { ref: titleRef, controls: titleControls } = useScrollAnimation({ threshold: 0.3 });
   const { ref: dividerRef, controls: dividerControls } = useScrollAnimation({ 
     threshold: 0.3, 
@@ -23,22 +25,6 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ className = '' }) =>
     threshold: 0.3, 
     delay: 600 
   });
-  
-  const getContentValue = (field: string) => {
-    return content.find(item => item.field === field)?.content || ''
-  }
-  
-  const getContentId = (field: string) => {
-    return content.find(item => item.field === field)?.id || ''
-  }
-  
-  const handleContentUpdate = async (field: string, newValue: string) => {
-    const id = getContentId(field)
-    if (id) {
-      return await updateContent(id, newValue)
-    }
-    return false
-  }
 
   const titleVariants = {
     hidden: { opacity: 0, y: 60 },

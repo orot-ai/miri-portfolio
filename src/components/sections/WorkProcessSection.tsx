@@ -7,6 +7,7 @@ import { commonVariants, hoverEffects, sectionStyles, THEME_COLORS } from '@/uti
 import { useAdminStore } from '@/stores/adminStore';
 import { EditableText } from '@/components/admin/EditableText';
 import { useAdminContent } from '@/hooks/useAdminContent';
+import { useContentHelpers } from '@/hooks/useContentHelpers';
 
 interface WorkProcessSectionProps {
   className?: string;
@@ -15,26 +16,11 @@ interface WorkProcessSectionProps {
 export const WorkProcessSection: React.FC<WorkProcessSectionProps> = ({ className = '' }) => {
   const { isAdminMode } = useAdminStore();
   const { content, updateContent } = useAdminContent('work_section');
+  const { getContentValue, handleContentUpdate } = useContentHelpers({ content, updateContent });
   const { ref: titleRef, controls: titleControls } = useScrollAnimation({ 
     threshold: 0.3,
     delay: 100
   });
-  
-  const getContentValue = (field: string) => {
-    return content.find(item => item.field === field)?.content || ''
-  }
-  
-  const getContentId = (field: string) => {
-    return content.find(item => item.field === field)?.id || ''
-  }
-  
-  const handleContentUpdate = async (field: string, newValue: string) => {
-    const id = getContentId(field)
-    if (id) {
-      return await updateContent(id, newValue)
-    }
-    return false
-  }
 
   // 마커 전용 특수 애니메이션 (회전 효과 포함)
   const markerVariants = {

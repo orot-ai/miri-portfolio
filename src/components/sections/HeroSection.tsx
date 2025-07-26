@@ -13,22 +13,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const { isAdminMode } = useAdminStore();
   const { content, updateContent } = useAdminContent('hero_section');
-  
-  const getContentValue = (field: string) => {
-    return content.find(item => item.field === field)?.content || ''
-  }
-  
-  const getContentId = (field: string) => {
-    return content.find(item => item.field === field)?.id || ''
-  }
-  
-  const handleContentUpdate = async (field: string, newValue: string) => {
-    const id = getContentId(field)
-    if (id) {
-      return await updateContent(id, newValue)
-    }
-    return false
-  }
+  const { getContentValue, handleContentUpdate } = useContentHelpers({ content, updateContent });
 
   useEffect(() => {
     // Trigger animations after component mounts

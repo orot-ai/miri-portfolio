@@ -6,6 +6,7 @@ import { commonVariants, createSweepGradientStyle, sweepHoverEffect, sectionStyl
 import { useAdminStore } from '@/stores/adminStore';
 import { EditableText } from '@/components/admin/EditableText';
 import { useAdminContent } from '@/hooks/useAdminContent';
+import { useContentHelpers } from '@/hooks/useContentHelpers';
 
 interface ProjectsSectionProps {
   className?: string;
@@ -14,24 +15,9 @@ interface ProjectsSectionProps {
 export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ className = '' }) => {
   const { isAdminMode } = useAdminStore();
   const { content, updateContent } = useAdminContent('projects_section');
+  const { getContentValue, handleContentUpdate } = useContentHelpers({ content, updateContent });
   const { ref: headerRef, controls: headerControls } = useScrollAnimation({ threshold: 0.2 });
   const navigate = useNavigate();
-  
-  const getContentValue = (field: string) => {
-    return content.find(item => item.field === field)?.content || ''
-  }
-  
-  const getContentId = (field: string) => {
-    return content.find(item => item.field === field)?.id || ''
-  }
-  
-  const handleContentUpdate = async (field: string, newValue: string) => {
-    const id = getContentId(field)
-    if (id) {
-      return await updateContent(id, newValue)
-    }
-    return false
-  }
 
   // 헤더용 커스텀 스케일 애니메이션 (기존 디자인 유지)
   const titleVariants = {
