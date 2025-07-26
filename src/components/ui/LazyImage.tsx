@@ -97,12 +97,7 @@ export const LazyImage: React.FC<LazyImageProps> = ({
         <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
           {fallback || (
             <div className="text-gray-400 text-center">
-              <div className="w-8 h-8 mx-auto mb-2 opacity-50">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
-              </div>
-              <span className="text-xs">이미지를 불러올 수 없습니다</span>
+              <p className="text-lg font-medium">준비중이예요❤️</p>
             </div>
           )}
         </div>

@@ -116,8 +116,7 @@ export const EditableImage: React.FC<EditableImageProps> = ({
           />
         ) : (
           <div className="flex flex-col items-center justify-center h-full min-h-[200px] text-gray-400">
-            <ImageIcon size={48} className="mb-2" />
-            <span className="text-sm">{placeholder}</span>
+            <p className="text-lg font-medium">준비중이예요❤️</p>
           </div>
         )}
 
