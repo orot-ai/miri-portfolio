@@ -399,7 +399,7 @@ const ProjectDetailPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* 헤더 영역 */}
-      <div className="max-w-[1100px] mx-auto px-8 pt-24 pb-6">
+      <div className="max-w-[1200px] mx-auto px-8 pt-24 pb-6">
         <motion.button
           onClick={() => navigate('/projects')}
           className="flex items-center gap-3 text-gray-600 hover:text-black transition-colors mb-8 group"
@@ -531,7 +531,7 @@ const ProjectDetailPage: React.FC = () => {
       </div>
 
       {/* 메인 이미지 - 상단에 크게 */}
-      <div className="max-w-[1100px] mx-auto px-8 pb-4">
+      <div className="max-w-[1200px] mx-auto px-8 pb-4">
         <motion.div
           className="aspect-video bg-gray-100 overflow-hidden relative group cursor-pointer"
           initial={{ opacity: 0, y: 30 }}
@@ -558,7 +558,7 @@ const ProjectDetailPage: React.FC = () => {
       </div>
 
       {/* 메인 콘텐츠 영역 */}
-      <div className="max-w-[1100px] mx-auto px-8 pb-24">
+      <div className="max-w-[1200px] mx-auto px-8 pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* 왼쪽: 서브 이미지 영역 */}
           <motion.div

@@ -212,7 +212,7 @@ export const EditableProjectCard: React.FC<EditableProjectCardProps> = ({
           alt={project.title}
           onSave={handleImageUpdate}
           className="w-full h-full object-cover object-center"
-          placeholder="클릭하여 이미지 추가"
+          placeholder="클릭하여 카드용 이미지 추가"
         />
       </div>
 

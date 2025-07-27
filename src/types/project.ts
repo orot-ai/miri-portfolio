@@ -14,13 +14,23 @@ export enum ProjectStatus {
 // 프로젝트 이미지 인터페이스
 export interface ProjectImages {
   image_url?: string
+  image_url_type?: string
   screenshot_1_url?: string
+  screenshot_1_url_type?: string
   screenshot_2_url?: string
+  screenshot_2_url_type?: string
   screenshot_3_url?: string
+  screenshot_3_url_type?: string
   thumbnail_1_url?: string
+  thumbnail_1_url_type?: string
   thumbnail_2_url?: string
+  thumbnail_2_url_type?: string
   thumbnail_3_url?: string
+  thumbnail_3_url_type?: string
   thumbnail_4_url?: string
+  thumbnail_4_url_type?: string
+  detail_media_url?: string
+  detail_media_type?: string
 }
 
 // 프로젝트 설명 인터페이스

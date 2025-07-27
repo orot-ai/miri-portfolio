@@ -6,7 +6,7 @@ import { logger } from '@/utils/logger'
 
 interface UseProjectOrderProps {
   projects: Project[]
-  updateProjectsOrder: (projects: Project[]) => Promise<boolean>
+  updateProjectsOrder: (projects: { id: string; order_index: number }[]) => Promise<boolean>
 }
 
 interface UseProjectOrderReturn {
@@ -44,7 +44,13 @@ export const useProjectOrder = ({
     setIsReordering(true)
 
     try {
-      const success = await updateProjectsOrder(newOrder)
+      // order_index를 다시 계산하여 전달
+      const orderedProjectsWithIndex = newOrder.map((project, index) => ({
+        id: project.id,
+        order_index: index
+      }))
+      
+      const success = await updateProjectsOrder(orderedProjectsWithIndex)
       if (!success) {
         // 실패 시 원래 순서로 복원
         setOrderedProjects(orderedProjects)
