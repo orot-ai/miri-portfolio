@@ -160,11 +160,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(({
 
       {/* Project Info */}
       <motion.div 
-        className="p-6"
+        className="p-4 sm:p-5 md:p-6"
         variants={contentVariants}
       >
         <motion.h3 
-          className="text-xl font-bold text-black mb-2 ${!isAdminMode ? 'cursor-pointer' : ''}"
+          className={`text-base sm:text-lg md:text-xl font-bold text-black mb-1.5 sm:mb-2 line-clamp-2 ${!isAdminMode ? 'cursor-pointer' : ''}`}
           variants={!isAdminMode ? itemVariants : {}}
           whileHover={!isAdminMode ? {
             color: "#7C3AED",
@@ -175,14 +175,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(({
         </motion.h3>
         
         <motion.p 
-          className="text-sm text-gray-500 mb-3 tracking-wide uppercase"
+          className="text-xs sm:text-sm text-gray-500 mb-2 sm:mb-3 tracking-wide uppercase"
           variants={itemVariants}
         >
           {project.category}
         </motion.p>
         
         <motion.p 
-          className="text-gray-600 mb-4 leading-relaxed"
+          className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4 leading-relaxed line-clamp-3"
           variants={itemVariants}
         >
           {project.description_card || project.description}
@@ -190,7 +190,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(({
 
         {/* Tags */}
         <motion.div 
-          className="flex flex-wrap gap-2"
+          className="flex flex-wrap gap-1.5 sm:gap-2"
           initial="hidden"
           animate="visible"
           variants={{
@@ -202,10 +202,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(({
             }
           }}
         >
-          {(project.tags || project.tech_stack || []).map((tag, index) => (
+          {(project.tags || project.tech_stack || []).slice(0, 4).map((tag, index) => (
             <motion.span
               key={tag}
-              className={`px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700 border border-gray-200 ${!isAdminMode ? 'transition-colors group-hover:bg-purple-600 group-hover:text-white group-hover:border-purple-600 cursor-pointer' : ''}`}
+              className={`px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium bg-gray-100 text-gray-700 border border-gray-200 ${!isAdminMode ? 'transition-colors group-hover:bg-purple-600 group-hover:text-white group-hover:border-purple-600 cursor-pointer' : ''}`}
               variants={!isAdminMode ? tagVariants : {}}
               whileHover={!isAdminMode ? {
                 scale: 1.05,
@@ -216,6 +216,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(({
               {tag}
             </motion.span>
           ))}
+          {(project.tags || project.tech_stack || []).length > 4 && (
+            <motion.span
+              className="px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium text-gray-500"
+              variants={!isAdminMode ? tagVariants : {}}
+            >
+              +{(project.tags || project.tech_stack || []).length - 4}
+            </motion.span>
+          )}
         </motion.div>
       </motion.div>
     </motion.div>

@@ -36,15 +36,15 @@ export const ProjectsPageHeader: React.FC<ProjectsPageHeaderProps> = ({
   const { isAdminMode } = useAdminStore()
 
   return (
-    <div className={`${sectionStyles.container} pt-24 pb-6`}>
+    <div className={`${sectionStyles.container} pt-20 sm:pt-24 pb-4 sm:pb-6 px-4 sm:px-8`}>
       <motion.button
         onClick={() => navigate('/')}
-        className="flex items-center gap-3 text-gray-600 hover:text-black transition-colors mb-8 group cursor-pointer"
+        className="flex items-center gap-2 sm:gap-3 text-sm sm:text-base text-gray-600 hover:text-black transition-colors mb-6 sm:mb-8 group cursor-pointer"
         initial={!isAdminMode ? { opacity: 0, x: -20 } : { opacity: 1, x: 0 }}
         animate={!isAdminMode ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
         transition={!isAdminMode ? { duration: 0.6 } : {}}
       >
-        <ArrowLeft size={20} className={!isAdminMode ? "group-hover:-translate-x-1 transition-transform" : ""} />
+        <ArrowLeft size={18} className={!isAdminMode ? "group-hover:-translate-x-1 transition-transform" : ""} />
         <span style={{ fontFamily: 'Noto Sans KR, sans-serif' }}>홈으로 돌아가기</span>
       </motion.button>
 
@@ -55,7 +55,7 @@ export const ProjectsPageHeader: React.FC<ProjectsPageHeaderProps> = ({
         className="text-center"
       >
         <motion.h1 
-          className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-black mb-4 cursor-default"
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight text-black mb-3 sm:mb-4 cursor-default"
           style={{ fontFamily: 'Pretendard Variable, sans-serif' }}
           whileHover={!isAdminMode ? {
             scale: 1.02,
@@ -71,7 +71,7 @@ export const ProjectsPageHeader: React.FC<ProjectsPageHeaderProps> = ({
         </motion.h1>
         
         <p 
-          className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto mb-8"
+          className="text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto mb-6 sm:mb-8 px-4"
           style={{ fontFamily: 'Noto Sans KR, sans-serif' }}
         >
           <EditableText
@@ -82,10 +82,10 @@ export const ProjectsPageHeader: React.FC<ProjectsPageHeaderProps> = ({
         </p>
 
         {/* 탭 네비게이션 */}
-        <div className="flex gap-4 justify-center">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
           <motion.button
             onClick={() => onTabChange('vibe')}
-            className={`px-8 py-3 font-medium relative overflow-hidden w-60 transition-colors cursor-pointer ${
+            className={`px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 text-sm sm:text-base font-medium relative overflow-hidden w-full sm:w-auto sm:min-w-[180px] md:min-w-[220px] transition-colors cursor-pointer ${
               activeTab === 'vibe' 
                 ? 'shadow-md border border-gray-200' 
                 : ''
@@ -107,7 +107,7 @@ export const ProjectsPageHeader: React.FC<ProjectsPageHeaderProps> = ({
           
           <motion.button
             onClick={() => onTabChange('automation')}
-            className={`px-8 py-3 font-medium relative overflow-hidden w-60 transition-colors cursor-pointer ${
+            className={`px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 text-sm sm:text-base font-medium relative overflow-hidden w-full sm:w-auto sm:min-w-[180px] md:min-w-[220px] transition-colors cursor-pointer ${
               activeTab === 'automation' 
                 ? 'shadow-md border border-gray-200' 
                 : ''

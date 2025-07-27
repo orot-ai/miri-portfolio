@@ -154,8 +154,8 @@ export const Header: React.FC<HeaderProps> = ({ className = '' }) => {
         animate="visible"
         variants={headerVariants}
       >
-        <div className="max-w-[1100px] mx-auto px-8">
-          <div className="flex items-center justify-between py-6">
+        <div className="max-w-[1100px] mx-auto px-4 sm:px-6 md:px-8">
+          <div className="flex items-center justify-between py-4 sm:py-5 md:py-6">
             {/* Logo */}
             <motion.button
               onClick={() => navigate('/')}
@@ -276,14 +276,14 @@ export const Header: React.FC<HeaderProps> = ({ className = '' }) => {
             
             {/* Menu Content */}
             <motion.div
-              className="absolute top-20 right-4 left-4 bg-white rounded-lg shadow-xl border border-gray-200/50 p-6"
+              className="absolute top-16 sm:top-20 right-4 left-4 bg-white rounded-lg shadow-xl border border-gray-200/50 p-4 sm:p-6"
               variants={mobileMenuVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
             >
               <nav>
-                <ul className="space-y-4">
+                <ul className="space-y-2 sm:space-y-3">
                   {navigationItems.map((item, index) => (
                     <motion.li
                       key={item.href}
@@ -298,7 +298,7 @@ export const Header: React.FC<HeaderProps> = ({ className = '' }) => {
                           e.preventDefault();
                           handleNavClick(item.href, item.isRoute);
                         }}
-                        className="block py-3 px-4 text-lg font-medium text-gray-700 hover:text-black hover:bg-gray-50 rounded-md transition-all cursor-pointer"
+                        className="block py-2.5 sm:py-3 px-3 sm:px-4 text-base sm:text-lg font-medium text-gray-700 hover:text-black hover:bg-gray-50 rounded-md transition-all cursor-pointer"
                       >
                         {item.label}
                       </a>
@@ -313,16 +313,16 @@ export const Header: React.FC<HeaderProps> = ({ className = '' }) => {
                         variants={mobileMenuItemVariants}
                         initial="hidden"
                         animate="visible"
-                        className="border-t border-gray-100 pt-4 mt-4"
+                        className="border-t border-gray-100 pt-3 mt-3"
                       >
                         <button
                           onClick={() => {
                             toggleAdminMode();
                             setIsMobileMenuOpen(false);
                           }}
-                          className="w-full flex items-center gap-3 py-3 px-4 text-lg font-medium text-gray-700 hover:text-black hover:bg-gray-50 rounded-md transition-all"
+                          className="w-full flex items-center gap-3 py-2.5 sm:py-3 px-3 sm:px-4 text-base sm:text-lg font-medium text-gray-700 hover:text-black hover:bg-gray-50 rounded-md transition-all"
                         >
-                          <Settings size={20} />
+                          <Settings size={18} />
                           {isAdminMode ? '편집 모드 끄기' : '편집 모드 켜기'}
                         </button>
                       </motion.li>
@@ -338,9 +338,9 @@ export const Header: React.FC<HeaderProps> = ({ className = '' }) => {
                             navigate('/');
                             setIsMobileMenuOpen(false);
                           }}
-                          className="w-full flex items-center gap-3 py-3 px-4 text-lg font-medium text-gray-700 hover:text-black hover:bg-gray-50 rounded-md transition-all"
+                          className="w-full flex items-center gap-3 py-2.5 sm:py-3 px-3 sm:px-4 text-base sm:text-lg font-medium text-gray-700 hover:text-black hover:bg-gray-50 rounded-md transition-all"
                         >
-                          <LogOut size={20} />
+                          <LogOut size={18} />
                           로그아웃
                         </button>
                       </motion.li>

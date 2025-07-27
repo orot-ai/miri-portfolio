@@ -178,7 +178,7 @@ export const transitions = {
 
 // 섹션 컨테이너 스타일
 export const sectionStyles = {
-  container: "max-w-[1100px] mx-auto px-8",
+  container: "max-w-[1100px] mx-auto px-4 sm:px-6 md:px-8",
   padding: "section-padding", // 기존 클래스 유지
   background: {
     white: "bg-white",

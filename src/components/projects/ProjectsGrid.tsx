@@ -170,7 +170,7 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
               items={projects.map(p => p.id)}
               strategy={rectSortingStrategy}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10">
                 {projects.map((project) => (
                   <SortableProjectCard
                     key={project.id}
@@ -185,7 +185,7 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
         ) : (
           // 일반 모드: 기존 StaggeredContainer
           <StaggeredContainer
-            className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12"
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10"
             staggerDelay={0.2}
             threshold={0.2}
           >
