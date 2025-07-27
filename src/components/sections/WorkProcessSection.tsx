@@ -48,12 +48,12 @@ export const WorkProcessSection: React.FC<WorkProcessSectionProps> = ({ classNam
   return (
     <section id="work" className={`section-padding bg-white relative ${className}`}>
       <div className={sectionStyles.container}>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 xl:gap-24 items-center">
           {/* Big Typography */}
           <div className="flex items-center justify-center lg:justify-start h-full">
             <motion.h2
               ref={titleRef}
-              className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-left leading-none tracking-tighter cursor-default"
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-center lg:text-left leading-none tracking-tighter cursor-default"
               initial={!isAdminMode ? "hidden" : { opacity: 1 }}
               animate={!isAdminMode ? titleControls : { opacity: 1 }}
               variants={!isAdminMode ? commonVariants.titleStagger : {}}
@@ -89,7 +89,7 @@ export const WorkProcessSection: React.FC<WorkProcessSectionProps> = ({ classNam
               {processSteps.map((step, index) => (
                 <StaggeredItem 
                   key={step.number}
-                  className="grid grid-cols-[1fr_80px] gap-8 py-10 border-b border-gray-200 last:border-b-0 items-start text-right group cursor-pointer"
+                  className="grid grid-cols-[1fr_60px] sm:grid-cols-[1fr_80px] gap-4 sm:gap-6 md:gap-8 py-6 sm:py-8 md:py-10 border-b border-gray-200 last:border-b-0 items-start text-left lg:text-right group cursor-pointer"
                   animationType={!isAdminMode ? "fadeInUp" : undefined}
                   whileHover={!isAdminMode ? {
                     backgroundColor: "rgba(124, 58, 237, 0.02)",
@@ -98,14 +98,14 @@ export const WorkProcessSection: React.FC<WorkProcessSectionProps> = ({ classNam
                 >
                   {/* Step Content */}
                   <motion.div 
-                    className="space-y-3 text-right"
+                    className="space-y-2 sm:space-y-3 text-left lg:text-right"
                     initial={!isAdminMode ? { opacity: 0, x: 50 } : { opacity: 1, x: 0 }}
                     whileInView={!isAdminMode ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
                     transition={!isAdminMode ? { duration: 0.6, delay: index * 0.1 } : {}}
                     viewport={!isAdminMode ? { once: true } : {}}
                   >
                     <motion.h4 
-                      className="text-xl font-bold text-black text-right"
+                      className="text-lg sm:text-xl font-bold text-black"
                       initial={!isAdminMode ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
                       whileInView={!isAdminMode ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
                       transition={!isAdminMode ? { duration: 0.6, delay: 0.2 + index * 0.1 } : {}}
@@ -119,7 +119,7 @@ export const WorkProcessSection: React.FC<WorkProcessSectionProps> = ({ classNam
                       />
                     </motion.h4>
                     <motion.p 
-                      className="text-gray-600 leading-relaxed text-right group-hover:text-gray-800 transition-colors"
+                      className="text-sm sm:text-base text-gray-600 leading-relaxed group-hover:text-gray-800 transition-colors"
                       initial={!isAdminMode ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
                       whileInView={!isAdminMode ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
                       transition={!isAdminMode ? { duration: 0.6, delay: 0.4 + index * 0.1 } : {}}
@@ -135,7 +135,7 @@ export const WorkProcessSection: React.FC<WorkProcessSectionProps> = ({ classNam
 
                   {/* Step Marker */}
                   <motion.div
-                    className="flex items-center justify-center w-16 h-16 bg-black text-white font-bold text-lg rounded-lg ml-auto"
+                    className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-black text-white font-bold text-base sm:text-lg rounded-lg ml-auto"
                     initial={!isAdminMode ? { opacity: 0, scale: 0, rotate: 180 } : { opacity: 1, scale: 1, rotate: 0 }}
                     whileInView={!isAdminMode ? { opacity: 1, scale: 1, rotate: 0 } : { opacity: 1, scale: 1, rotate: 0 }}
                     transition={!isAdminMode ? { 

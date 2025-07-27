@@ -82,7 +82,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ className = '' }
 
   return (
     <section id="contact" className={`section-padding bg-black text-white relative overflow-hidden ${className}`}>
-      <div className="max-w-[1100px] mx-auto px-8">
+      <div className="max-w-[1100px] mx-auto px-4 sm:px-6 md:px-8">
         <motion.div
           ref={headerRef}
           className="text-center max-w-4xl mx-auto"
@@ -92,7 +92,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ className = '' }
         >
           {/* Header */}
           <motion.p 
-            className="text-sm font-medium tracking-widest text-gray-400 uppercase mb-6"
+            className="text-xs sm:text-sm font-medium tracking-widest text-gray-400 uppercase mb-4 sm:mb-6"
             variants={!isAdminMode ? itemVariants : {}}
           >
             <EditableText
@@ -103,7 +103,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ className = '' }
           </motion.p>
           
           <motion.h2 
-            className="text-4xl md:text-5xl lg:text-6xl font-black mb-8"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-6 sm:mb-8"
             variants={!isAdminMode ? itemVariants : {}}
           >
             <EditableText
@@ -114,7 +114,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ className = '' }
           </motion.h2>
           
           <motion.p 
-            className="text-xl md:text-2xl text-gray-300 leading-relaxed mb-12"
+            className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 leading-relaxed mb-8 sm:mb-10 md:mb-12"
             variants={!isAdminMode ? itemVariants : {}}
           >
             <EditableText
@@ -127,7 +127,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ className = '' }
 
           {/* Contact Methods */}
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-10 md:mb-12"
             variants={{
               hidden: {},
               visible: {
@@ -143,7 +143,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ className = '' }
               return (
                 <motion.div
                   key={contact.label}
-                  className={`group p-6 bg-gray-900 rounded-lg border border-gray-800 hover:border-gray-600 transition-all duration-300 ${!isAdminMode ? 'cursor-pointer' : ''}`}
+                  className={`group p-4 sm:p-5 md:p-6 bg-gray-900 rounded-lg border border-gray-800 hover:border-gray-600 transition-all duration-300 ${!isAdminMode ? 'cursor-pointer' : ''}`}
                   variants={!isAdminMode ? itemVariants : {}}
                   whileHover={!isAdminMode ? { 
                     scale: 1.02,
@@ -156,19 +156,19 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ className = '' }
                     e.stopPropagation();
                   }}
                 >
-                  <div className="flex items-center gap-4">
-                    <div className={`p-3 rounded-lg bg-gray-800 group-hover:bg-gray-700 transition-colors ${contact.color}`}>
-                      <IconComponent size={24} />
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div className={`p-2.5 sm:p-3 rounded-lg bg-gray-800 group-hover:bg-gray-700 transition-colors ${contact.color}`}>
+                      <IconComponent size={20} className="sm:w-6 sm:h-6" />
                     </div>
                     <div className="text-left flex-1">
-                      <div className="text-sm text-gray-400 font-medium">
+                      <div className="text-xs sm:text-sm text-gray-400 font-medium">
                         <EditableText
                           value={contact.label}
                           onSave={(value) => handleContentUpdate(`${contact.key}_label`, value)}
                           className="inline"
                         />
                       </div>
-                      <div className="text-white font-semibold">
+                      <div className="text-sm sm:text-base text-white font-semibold">
                         <EditableText
                           value={contact.value}
                           onSave={(value) => handleContentUpdate(contact.key === 'email' ? 'email' : contact.key === 'threads' ? 'threads_value' : contact.key, value)}
@@ -216,12 +216,12 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ className = '' }
 
           {/* Footer */}
           <motion.div 
-            className="mt-20 pt-12 border-t border-gray-800 text-center"
+            className="mt-12 sm:mt-16 md:mt-20 pt-8 sm:pt-10 md:pt-12 border-t border-gray-800 text-center"
             variants={!isAdminMode ? itemVariants : {}}
           >
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
               <motion.p 
-                className="text-gray-400 text-sm"
+                className="text-gray-400 text-xs sm:text-sm order-2 md:order-1"
                 whileHover={!isAdminMode ? { opacity: 0.8 } : {}}
               >
                 <EditableText
@@ -232,7 +232,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ className = '' }
               </motion.p>
               
               <motion.div 
-                className="flex items-center gap-6"
+                className="flex items-center gap-4 sm:gap-6 order-1 md:order-2"
                 variants={{
                   hidden: {},
                   visible: {
@@ -265,7 +265,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ className = '' }
                       }}
                       whileTap={{ scale: 0.9 }}
                     >
-                      <IconComponent size={20} />
+                      <IconComponent size={18} className="sm:w-5 sm:h-5" />
                     </motion.a>
                   );
                 })}
@@ -275,10 +275,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ className = '' }
         </motion.div>
       </div>
 
-      {/* Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Background Elements - Hidden on mobile */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none hidden sm:block">
         <motion.div
-          className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-purple-900/20 to-transparent rounded-full blur-3xl"
+          className="absolute top-20 right-10 sm:right-20 w-32 sm:w-48 md:w-64 h-32 sm:h-48 md:h-64 bg-gradient-to-br from-purple-900/20 to-transparent rounded-full blur-3xl"
           animate={{
             scale: [1, 1.2, 1],
             opacity: [0.3, 0.6, 0.3],
@@ -290,7 +290,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ className = '' }
           }}
         />
         <motion.div
-          className="absolute bottom-20 left-20 w-96 h-96 bg-gradient-to-tr from-blue-900/20 to-transparent rounded-full blur-3xl"
+          className="absolute bottom-20 left-10 sm:left-20 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-gradient-to-tr from-blue-900/20 to-transparent rounded-full blur-3xl"
           animate={{
             scale: [1, 0.8, 1],
             opacity: [0.2, 0.5, 0.2],

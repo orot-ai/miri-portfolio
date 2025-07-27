@@ -69,13 +69,13 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ className = '' }) =>
 
 
   return (
-    <section id="about" className={`py-32 bg-gray-50 relative ${className}`}>
-      <div className="max-w-[1100px] mx-auto px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-16 lg:gap-32 items-start">
+    <section id="about" className={`py-16 sm:py-24 md:py-32 bg-gray-50 relative ${className}`}>
+      <div className="max-w-[1100px] mx-auto px-4 sm:px-6 md:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 sm:gap-12 lg:gap-16 xl:gap-32 items-start">
           {/* Left Details */}
-          <div className="lg:col-span-1 pt-8">
+          <div className="lg:col-span-1 pt-4 sm:pt-8">
             <StaggeredContainer 
-              className="space-y-12"
+              className="space-y-8 sm:space-y-10 md:space-y-12"
               staggerDelay={0.15}
               threshold={0.3}
             >
@@ -85,19 +85,19 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ className = '' }) =>
                   animationType="fadeInLeft"
                 >
                   <motion.div 
-                    className="border-b border-gray-200 pb-8 last:border-b-0 last:pb-0"
+                    className="border-b border-gray-200 pb-6 sm:pb-8 last:border-b-0 last:pb-0"
                     whileHover={!isAdminMode ? { x: -8 } : {}}
                     transition={!isAdminMode ? { duration: 0.3 } : {}}
                   >
-                    <div className="flex items-center gap-4 mb-3">
-                      <span className="font-mono text-sm text-gray-400 font-semibold">
+                    <div className="flex items-center gap-3 sm:gap-4 mb-2 sm:mb-3">
+                      <span className="font-mono text-xs sm:text-sm text-gray-400 font-semibold">
                         <EditableText
                           value={getContentValue(`detail_${index}_number`) || item.number}
                           onSave={(value) => handleContentUpdate(`detail_${index}_number`, value)}
                           className="inline"
                         />
                       </span>
-                      <span className="text-sm text-gray-500 uppercase tracking-wide font-medium">
+                      <span className="text-xs sm:text-sm text-gray-500 uppercase tracking-wide font-medium">
                         <EditableText
                           value={getContentValue(`detail_${index}_label`) || item.label}
                           onSave={(value) => handleContentUpdate(`detail_${index}_label`, value)}
@@ -105,7 +105,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ className = '' }) =>
                         />
                       </span>
                     </div>
-                    <span className="text-xl font-semibold text-black leading-tight">
+                    <span className="text-lg sm:text-xl font-semibold text-black leading-tight">
                       <EditableText
                         value={getContentValue(`detail_${index}_value`) || item.value}
                         onSave={(value) => handleContentUpdate(`detail_${index}_value`, value)}
@@ -119,10 +119,10 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ className = '' }) =>
           </div>
 
           {/* Right Content */}
-          <div className="lg:col-span-3 text-right">
+          <div className="lg:col-span-3 text-left lg:text-right">
             <motion.h2 
               ref={titleRef}
-              className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-[1.1] tracking-tight text-black mb-12 text-right"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-black leading-[1.1] tracking-tight text-black mb-8 sm:mb-10 md:mb-12"
               style={{ fontFamily: 'Pretendard Variable, sans-serif' }}
               initial={!isAdminMode ? "hidden" : {}}
               animate={!isAdminMode ? titleControls : {}}
@@ -158,7 +158,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ className = '' }) =>
 
             <motion.div
               ref={dividerRef}
-              className="w-16 h-0.5 bg-black mb-12 origin-right ml-auto"
+              className="w-12 sm:w-16 h-0.5 bg-black mb-8 sm:mb-10 md:mb-12 origin-left lg:origin-right lg:ml-auto"
               initial={!isAdminMode ? "hidden" : { opacity: 1, scaleX: 1 }}
               animate={!isAdminMode ? dividerControls : { opacity: 1, scaleX: 1 }}
               variants={!isAdminMode ? dividerVariants : {}}
@@ -166,12 +166,12 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ className = '' }) =>
 
             <motion.div
               ref={descRef}
-              className="space-y-6"
+              className="space-y-4 sm:space-y-6"
               initial={!isAdminMode ? "hidden" : { opacity: 1, y: 0 }}
               animate={!isAdminMode ? descControls : { opacity: 1, y: 0 }}
               variants={!isAdminMode ? descriptionVariants : {}}
             >
-              <p className="text-xl leading-relaxed text-gray-600 text-right" style={{ fontFamily: 'Noto Sans KR, sans-serif' }}>
+              <p className="text-base sm:text-lg md:text-xl leading-relaxed text-gray-600 text-left lg:text-right" style={{ fontFamily: 'Noto Sans KR, sans-serif' }}>
                 <EditableText
                   value={getContentValue('description_line1') || '복잡한 일상을 단순하게, 반복되는 업무를 자동화로'}
                   onSave={(value) => handleContentUpdate('description_line1', value)}

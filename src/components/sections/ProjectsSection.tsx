@@ -44,13 +44,13 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ className = ''
       <div className={sectionStyles.container}>
         <motion.div
           ref={headerRef}
-          className="text-center mb-16"
+          className="text-center mb-8 sm:mb-12 md:mb-16"
           initial={!isAdminMode ? "hidden" : { opacity: 1 }}
           animate={!isAdminMode ? headerControls : { opacity: 1 }}
           variants={!isAdminMode ? commonVariants.staggerContainer : {}}
         >
           <motion.p 
-            className="text-sm font-medium tracking-widest text-gray-500 uppercase mb-4"
+            className="text-xs sm:text-sm font-medium tracking-widest text-gray-500 uppercase mb-3 sm:mb-4"
             variants={!isAdminMode ? commonVariants.fadeInUp : {}}
           >
             <EditableText
@@ -60,7 +60,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ className = ''
             />
           </motion.p>
           <motion.h2 
-            className="text-4xl md:text-5xl lg:text-6xl font-black text-black"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-black"
             variants={!isAdminMode ? titleVariants : {}}
           >
             <EditableText
@@ -73,7 +73,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ className = ''
       </div>
 
       {/* 프로젝트 카드들 - 전체 너비 사용 */}
-      <div className="space-y-8 mb-16 overflow-visible">
+      <div className="space-y-4 sm:space-y-6 md:space-y-8 mb-8 sm:mb-12 md:mb-16 overflow-hidden sm:overflow-visible">
         {/* 바이브코딩 프로젝트 - 왼쪽 정렬 */}
         <motion.div
           className="w-full"
@@ -84,19 +84,19 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ className = ''
         >
           <div className="flex justify-start">
             <motion.div 
-              className="w-[85%] max-w-[1400px] h-[280px] cursor-pointer -ml-[5%] relative overflow-hidden"
+              className="w-full sm:w-[90%] md:w-[85%] max-w-[1400px] h-[160px] sm:h-[200px] md:h-[240px] lg:h-[280px] cursor-pointer sm:-ml-[5%] relative overflow-hidden"
               style={createSweepGradientStyle()}
               whileHover={!isAdminMode ? { 
-                x: 40, 
-                scale: 1.02,
+                x: window.innerWidth > 640 ? 40 : 0, 
+                scale: window.innerWidth > 640 ? 1.02 : 1,
                 ...sweepHoverEffect.whileHover
               } : {}}
               onClick={() => navigate('/projects?tab=vibe')}
             >
               {/* 콘텐츠 영역 - 카드 안에 배치 */}
-              <div className="h-full pl-24 pr-16 py-16 flex flex-col justify-center text-right">
+              <div className="h-full px-6 sm:px-12 md:px-16 lg:pl-24 lg:pr-16 py-8 sm:py-12 md:py-16 flex flex-col justify-center text-left sm:text-right">
                 <motion.h3 
-                  className="text-6xl md:text-7xl lg:text-8xl font-black text-white mb-8"
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-black text-white mb-3 sm:mb-4 md:mb-6 lg:mb-8"
                   whileHover={!isAdminMode ? { 
                     scale: 1.05,
                     transition: { duration: 0.3 }
@@ -109,7 +109,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ className = ''
                   />
                 </motion.h3>
                 <motion.p 
-                  className="text-2xl text-gray-400"
+                  className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-gray-400 line-clamp-2 sm:line-clamp-none"
                   whileHover={!isAdminMode ? { 
                     color: THEME_COLORS.gray[300],
                     y: -5,
@@ -137,19 +137,19 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ className = ''
         >
           <div className="flex justify-end">
             <motion.div 
-              className="w-[85%] max-w-[1400px] h-[280px] cursor-pointer -mr-[5%] relative overflow-hidden"
+              className="w-full sm:w-[90%] md:w-[85%] max-w-[1400px] h-[160px] sm:h-[200px] md:h-[240px] lg:h-[280px] cursor-pointer sm:-mr-[5%] relative overflow-hidden"
               style={createSweepGradientStyle()}
               whileHover={!isAdminMode ? { 
-                x: -40, 
-                scale: 1.02,
+                x: window.innerWidth > 640 ? -40 : 0, 
+                scale: window.innerWidth > 640 ? 1.02 : 1,
                 ...sweepHoverEffect.whileHover
               } : {}}
               onClick={() => navigate('/projects?tab=automation')}
             >
               {/* 콘텐츠 영역 - 카드 안에 배치 */}
-              <div className="h-full p-16 flex flex-col justify-center text-left">
+              <div className="h-full px-6 sm:px-12 md:px-16 py-8 sm:py-12 md:py-16 flex flex-col justify-center text-left">
                 <motion.h3 
-                  className="text-6xl md:text-7xl lg:text-8xl font-black text-white mb-8"
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-black text-white mb-3 sm:mb-4 md:mb-6 lg:mb-8"
                   whileHover={!isAdminMode ? { 
                     scale: 1.05,
                     transition: { duration: 0.3 }
@@ -162,7 +162,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ className = ''
                   />
                 </motion.h3>
                 <motion.p 
-                  className="text-2xl text-gray-400"
+                  className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-gray-400 line-clamp-2 sm:line-clamp-none"
                   whileHover={!isAdminMode ? { 
                     color: THEME_COLORS.gray[300],
                     y: -5,
@@ -184,7 +184,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ className = ''
       {/* 프로젝트 더 보기 버튼 */}
       <div className={sectionStyles.container}>
         <motion.div
-          className="text-center mt-12"
+          className="text-center mt-8 sm:mt-10 md:mt-12"
           initial={!isAdminMode ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
           whileInView={!isAdminMode ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
           transition={!isAdminMode ? { duration: 0.6, delay: 0.4 } : {}}
@@ -192,7 +192,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ className = ''
         >
           <motion.button
             onClick={() => navigate('/projects')}
-            className="px-8 py-4 bg-black text-white font-medium hover:bg-gray-800 transition-colors relative overflow-hidden"
+            className="px-6 sm:px-8 py-3 sm:py-4 bg-black text-white text-sm sm:text-base font-medium hover:bg-gray-800 transition-colors relative overflow-hidden"
             style={createSweepGradientStyle()}
             whileHover={!isAdminMode ? { 
               scale: 1.05,
@@ -205,8 +205,8 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ className = ''
         </motion.div>
       </div>
 
-      {/* Background Decoration */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Background Decoration - Hide on mobile */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none hidden sm:block">
         <motion.div
           className="absolute top-20 right-10 w-2 h-2 bg-gray-300 rounded-full"
           animate={{

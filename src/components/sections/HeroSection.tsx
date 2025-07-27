@@ -147,12 +147,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
   return (
     <section className={`relative h-screen flex items-center overflow-hidden bg-white ${className}`}>
       {/* Main Content - 왼쪽 정렬, 기존 HTML과 동일 */}
-      <div className="max-w-[1100px] mx-auto px-8 w-full relative z-10">
+      <div className="max-w-[1100px] mx-auto px-4 sm:px-6 md:px-8 w-full relative z-10">
         <motion.h1 
-          className="font-black leading-[0.9] tracking-[-0.05em] mb-8"
+          className="font-black leading-[0.9] tracking-[-0.05em] mb-6 sm:mb-8"
           style={{ 
             fontFamily: 'Pretendard Variable, sans-serif',
-            fontSize: 'clamp(60px, 12vw, 160px)',
+            fontSize: 'clamp(40px, 10vw, 160px)',
             fontWeight: 800
           }}
           initial={!isAdminMode ? "hidden" : { opacity: 1, y: 0 }}
@@ -197,10 +197,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
         </motion.h1>
 
         <motion.p 
-          className="text-gray-600 font-light mb-12"
+          className="text-gray-600 font-light mb-8 sm:mb-10 md:mb-12 text-base sm:text-lg md:text-xl"
           style={{ 
             fontFamily: 'Noto Sans KR, sans-serif',
-            fontSize: '1.25rem',
             fontWeight: 300
           }}
           initial={!isAdminMode ? "hidden" : { opacity: 1, y: 0 }}
@@ -221,9 +220,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
         >
           <motion.a
             href={!isAdminMode ? "#projects" : undefined}
-            className="cta-button relative inline-flex items-center gap-4 text-white font-medium tracking-wide overflow-hidden"
+            className="cta-button relative inline-flex items-center gap-3 sm:gap-4 text-white font-medium tracking-wide overflow-hidden px-6 sm:px-8 md:px-12 py-3 sm:py-4 md:py-6 text-sm sm:text-base"
             style={{
-              padding: '1.5rem 3rem',
               background: '#0A0A0A',
               fontFamily: 'Pretendard Variable, sans-serif',
               fontWeight: 500,
@@ -260,7 +258,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
 
       {/* Floating Elements - 기존 HTML과 동일한 위치와 스타일 */}
       <motion.div
-        className="absolute select-none pointer-events-none"
+        className="absolute select-none pointer-events-none hidden sm:block"
         style={{
           top: '20%',
           right: '10%',
@@ -282,7 +280,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
       </motion.div>
       
       <motion.div
-        className="absolute select-none pointer-events-none"
+        className="absolute select-none pointer-events-none hidden md:block"
         style={{
           bottom: '30%',
           right: '25%',
@@ -304,7 +302,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
       </motion.div>
       
       <motion.div
-        className="absolute select-none pointer-events-none"
+        className="absolute select-none pointer-events-none hidden lg:block"
         style={{
           top: '15%',
           left: '15%',
