@@ -100,44 +100,91 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
 
   if (loading) {
     return (
-      <div className="flex justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+      <div className="min-h-[400px] sm:min-h-[500px]">
+        {/* 스켈레톤 로딩 UI */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10">
+          {[...Array(4)].map((_, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse"
+            >
+              {/* 이미지 스켈레톤 */}
+              <div className="aspect-[16/9] bg-gray-200"></div>
+              
+              {/* 콘텐츠 스켈레톤 */}
+              <div className="p-4 sm:p-5 md:p-6 space-y-3">
+                {/* 제목 */}
+                <div className="h-6 bg-gray-200 rounded w-3/4"></div>
+                
+                {/* 설명 */}
+                <div className="space-y-2">
+                  <div className="h-4 bg-gray-200 rounded w-full"></div>
+                  <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+                </div>
+                
+                {/* 태그 */}
+                <div className="flex gap-2 pt-2">
+                  <div className="h-6 bg-gray-200 rounded-full w-16"></div>
+                  <div className="h-6 bg-gray-200 rounded-full w-20"></div>
+                  <div className="h-6 bg-gray-200 rounded-full w-14"></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        {/* 로딩 인디케이터 */}
+        <div className="flex justify-center mt-8">
+          <div className="flex items-center gap-2 text-gray-500">
+            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-purple-600"></div>
+            <span className="text-sm">프로젝트를 불러오는 중...</span>
+          </div>
+        </div>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="text-center py-12">
-        <p className="text-red-600 mb-4">{error}</p>
-        <button
-          onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"
-        >
-          다시 시도
-        </button>
+      <div className="min-h-[400px] sm:min-h-[500px] flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"
+          >
+            다시 시도
+          </button>
+        </div>
       </div>
     )
   }
 
   if (projects.length === 0) {
     return (
-      <div className="text-center py-32">
+      <div className="min-h-[400px] sm:min-h-[500px] flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
-          className="max-w-lg mx-auto"
+          className="max-w-lg mx-auto text-center"
         >
-          <p className="text-gray-400 text-lg">
-            {isAdminMode 
-              ? "등록된 프로젝트가 없습니다" 
-              : "준비 중입니다"}
-          </p>
+          <div className="mb-8">
+            <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+              <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <p className="text-gray-400 text-lg">
+              {isAdminMode 
+                ? "등록된 프로젝트가 없습니다" 
+                : "준비 중입니다"}
+            </p>
+          </div>
           {isAdminMode && (
             <motion.button
               onClick={onAddProject}
-              className="mt-8 inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white hover:bg-purple-700 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white hover:bg-purple-700 transition-colors"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -183,16 +230,24 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
             </SortableContext>
           </DndContext>
         ) : (
-          // 일반 모드: 기존 StaggeredContainer
-          <StaggeredContainer
+          // 일반 모드: 즉시 로드되는 그리드
+          <motion.div
             className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10"
-            staggerDelay={0.2}
-            threshold={0.2}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
           >
-            {projects.map((project) => (
-              <StaggeredItem 
+            {projects.map((project, index) => (
+              <motion.div
                 key={project.id}
                 className={project.featured ? 'md:col-span-2 lg:col-span-1' : ''}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: index * 0.1,
+                  ease: 'easeOut' 
+                }}
               >
                 <ProjectCard 
                   project={project} 
@@ -200,9 +255,9 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
                   className="h-full"
                   onClick={() => onProjectClick(project)}
                 />
-              </StaggeredItem>
+              </motion.div>
             ))}
-          </StaggeredContainer>
+          </motion.div>
         )}
       </motion.div>
       

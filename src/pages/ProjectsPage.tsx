@@ -121,7 +121,7 @@ const ProjectsPage: React.FC = () => {
       />
 
       {/* 프로젝트 목록 */}
-      <div className={`${sectionStyles.container} pb-16 sm:pb-24 md:pb-32 px-4 sm:px-8`}>
+      <div className={`${sectionStyles.container} pt-4 sm:pt-6 pb-16 sm:pb-24 md:pb-32 px-4 sm:px-8`}>
         <ProjectsGrid
           projects={orderedProjects}
           loading={currentLoading}

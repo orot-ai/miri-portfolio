@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
@@ -7,6 +7,8 @@ import { useAdminStore } from '@/stores/adminStore';
 import { EditableText } from '@/components/admin/EditableText';
 import { useAdminContent } from '@/hooks/useAdminContent';
 import { useContentHelpers } from '@/hooks/useContentHelpers';
+import { AdminAPI } from '@/lib/adminAPI';
+import { useProjectsCache } from '@/stores/projectsCache';
 
 interface ProjectsSectionProps {
   className?: string;

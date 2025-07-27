@@ -36,10 +36,10 @@ export const ProjectsPageHeader: React.FC<ProjectsPageHeaderProps> = ({
   const { isAdminMode } = useAdminStore()
 
   return (
-    <div className={`${sectionStyles.container} pt-20 sm:pt-24 pb-4 sm:pb-6 px-4 sm:px-8`}>
+    <div className={`${sectionStyles.container} pt-16 sm:pt-20 md:pt-24 pb-4 sm:pb-6 px-4 sm:px-8`}>
       <motion.button
         onClick={() => navigate('/')}
-        className="flex items-center gap-2 sm:gap-3 text-sm sm:text-base text-gray-600 hover:text-black transition-colors mb-6 sm:mb-8 group cursor-pointer"
+        className="flex items-center gap-2 sm:gap-3 text-sm sm:text-base text-gray-600 hover:text-black transition-colors mb-4 sm:mb-6 md:mb-8 group cursor-pointer"
         initial={!isAdminMode ? { opacity: 0, x: -20 } : { opacity: 1, x: 0 }}
         animate={!isAdminMode ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
         transition={!isAdminMode ? { duration: 0.6 } : {}}
@@ -55,7 +55,7 @@ export const ProjectsPageHeader: React.FC<ProjectsPageHeaderProps> = ({
         className="text-center"
       >
         <motion.h1 
-          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight text-black mb-3 sm:mb-4 cursor-default"
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight text-black mb-2 sm:mb-3 md:mb-4 cursor-default"
           style={{ fontFamily: 'Pretendard Variable, sans-serif' }}
           whileHover={!isAdminMode ? {
             scale: 1.02,
@@ -71,7 +71,7 @@ export const ProjectsPageHeader: React.FC<ProjectsPageHeaderProps> = ({
         </motion.h1>
         
         <p 
-          className="text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto mb-6 sm:mb-8 px-4"
+          className="text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto mb-4 sm:mb-6 md:mb-8 px-4"
           style={{ fontFamily: 'Noto Sans KR, sans-serif' }}
         >
           <EditableText
